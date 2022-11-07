@@ -1,0 +1,162 @@
+openapi: 3.0.0
+info:
+  title: Authorization
+  description: Traninig-authorization .
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Development server
+
+paths:
+  /users/list:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: Get all Users.
+      responses:
+        200:
+          description: Succes
+        500:
+          description: Server error
+  /users/registration:
+    post:
+      tags:
+        - User
+      summary: Registration user .
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/registrationUser"
+      responses:
+        200:
+          description: Succes
+        500:
+          description: Server error
+  /users/check-email:
+    post:
+      tags:
+        - User
+      summary: Check email user .
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/CheckEmail"
+      responses:
+        200:
+          description: Succes
+        500:
+          description: Server error
+  /users/update-password:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: Update password .
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updatePassword"
+      responses:
+        200:
+          description: Succes
+        500:
+          description: Server error
+  /users/email-confirmed:
+    get:
+      tags:
+        - User
+      summary: go to the page after confirming the email.
+      responses:
+        200:
+          description: Succes
+        500:
+          description: Server error
+  /users/authorization:
+    post:
+      tags:
+        - User
+      summary: Authorization user .
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/authorizationUser"
+      responses:
+        200:
+          description: Succes
+        500:
+          description: Server error
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    registrationUser:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: User first name
+          example: Yra
+        lastName:
+          type: string
+          description: User last name
+          example: Stell
+        userEmail:
+          type: string
+          description: User email
+          example: pete7833@examples.com
+        password:
+          type: string
+          description: User password
+          example: "21dsa"
+    updatePassword:
+      type: object
+      properties:
+        oldPassword:
+          type: string
+          description: Old user password
+          example: "21dsa"
+        newPassword:
+          type: string
+          description: New user password
+          example: "3232d"
+        repeatNewPassword:
+          type: string
+          description: Repeat new user password
+          example: "3232d"
+    CheckEmail:
+      type: object
+      properties:
+        email:
+          type: string
+          description: User email
+          example: doel123@examples.com
+        code:
+          type: string
+          description: Email verification code.
+          example: YT45
+    authorizationUser:
+      type: object
+      properties:
+        email:
+          type: string
+          description: User email
+          example: pete7833@examples.com
+        password:
+          type: string
+          description: Password user.
+          example: 21dsa
