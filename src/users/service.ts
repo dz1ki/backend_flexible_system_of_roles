@@ -7,12 +7,8 @@ import {
   randomCharacterGenerator,
 } from "./helper";
 
-const attribute = ["lastName", "firstName"];
-
 export async function list() {
-  return await User.findAll({
-    attributes: attribute,
-  });
+  return await User.findAll({});
 }
 
 export async function registrationUser(
@@ -21,7 +17,7 @@ export async function registrationUser(
   lastName: string,
   passwordUser: string
 ) {
-  const mail_confirmation_code = randomCharacterGenerator();
+  const mailConfirmationCode = randomCharacterGenerator();
   const findUser = await User.findOne({ where: { email: userEmail } });
   if (findUser) {
     throw { message: "User with this email already exists" };
@@ -31,23 +27,25 @@ export async function registrationUser(
     email: userEmail,
     firstName,
     lastName,
-    mail_confirmation_code,
+    mailConfirmationCode,
     password: resultHash,
   });
-  await sendToEmail(userEmail, mail_confirmation_code);
+  await sendToEmail(userEmail, mailConfirmationCode);
   return {
     message: `User registered. A confirmation email has been sent to ${userEmail}`,
   };
 }
-//нид добавить что при подтверждении почты присваивается роль
+
 export async function checkEmailUser(
   emailUser: string,
   codeConfirmation: string
 ) {
   const user = await User.findOne({ where: { email: emailUser } });
-  if (codeConfirmation === user.mail_confirmation_code) {
+  if (codeConfirmation === user.mailConfirmationCode) {
+    await User.update({ emailConfirmed: true }, { where: { id: user.id } });
     return { message: "Email confirmed" };
   }
+  return { message: "Mail not confirmed." };
 }
 
 export async function authorizationUser(emailUser: string, password: string) {

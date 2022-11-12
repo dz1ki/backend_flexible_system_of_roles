@@ -1,7 +1,7 @@
 "use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Permissions", {
+    await queryInterface.createTable("permissions", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -14,7 +14,7 @@ module.exports = {
         onDelete: "CASCADE",
         isNullable: false,
         references: {
-          model: "Permission_objects",
+          model: "permission_objects",
           key: "id",
           as: "object_id",
         },
@@ -33,8 +33,16 @@ module.exports = {
         default: false,
         isNullable: false,
       },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
     });
-    await queryInterface.addConstraint("Permissions", {
+    await queryInterface.addConstraint("permissions", {
       type: "UNIQUE",
       name: "object_id_action_unique",
       fields: ["object_id", "action"],
@@ -43,9 +51,9 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     await queryInterface.removeConstraint(
-      "Permissions",
+      "permissions",
       "object_id_action_unique"
     );
-    await queryInterface.dropTable("Permissions");
+    await queryInterface.dropTable("permissions");
   },
 };

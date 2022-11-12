@@ -1,7 +1,7 @@
 "use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Users_roles", {
+    await queryInterface.createTable("users_roles", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -14,7 +14,7 @@ module.exports = {
         onDelete: "CASCADE",
         isNullable: false,
         references: {
-          model: "Roles",
+          model: "roles",
           key: "id",
           as: "role_id",
         },
@@ -24,13 +24,21 @@ module.exports = {
         onDelete: "CASCADE",
         isNullable: false,
         references: {
-          model: "Users",
+          model: "users",
           key: "id",
           as: "user_id",
         },
       },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
     });
-    await queryInterface.addConstraint("Users_roles", {
+    await queryInterface.addConstraint("users_roles", {
       type: "UNIQUE",
       name: "user_id_role_id_unique",
       fields: ["user_id", "role_id"],
@@ -39,9 +47,9 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     await queryInterface.removeConstraint(
-      "Users_roles",
+      "users_roles",
       "user_id_role_id_unique"
     );
-    await queryInterface.dropTable("Users_roles");
+    await queryInterface.dropTable("users_roles");
   },
 };

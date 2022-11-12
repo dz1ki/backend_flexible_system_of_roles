@@ -1,53 +1,49 @@
 import {
   CreationOptional,
   DataTypes,
+  ForeignKey,
   InferAttributes,
   InferCreationAttributes,
   Model,
-  NonAttribute,
 } from "sequelize";
-import { sequelize } from ".";
+import { sequelize } from "./index";
 import { Permission } from "./permission";
+import { Role } from "./role";
 
-export class Role extends Model<
-  InferAttributes<Role>,
-  InferCreationAttributes<Role>
+export class RolePermission extends Model<
+  InferAttributes<RolePermission>,
+  InferCreationAttributes<RolePermission>
 > {
   declare id: CreationOptional<number>;
-  declare name: string;
-  declare slugname: string;
-  declare isSystem: boolean;
-  declare users?: NonAttribute<Role[]>;
-  declare permissions?: NonAttribute<Permission[]>;
+  declare roleId: ForeignKey<Role["id"]>;
+  declare permissionId: ForeignKey<Permission["id"]>;
   declare created_at: CreationOptional<Date>;
   declare updated_at: CreationOptional<Date>;
 }
 
-Role.init(
+RolePermission.init(
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    name: {
-      type: new DataTypes.STRING(128),
+    roleId: {
+      type: new DataTypes.INTEGER(),
       allowNull: false,
+      field: "role_id",
     },
-    slugname: {
-      type: new DataTypes.STRING(128),
+    permissionId: {
+      type: new DataTypes.INTEGER(),
       allowNull: false,
-    },
-    isSystem: {
-      type: new DataTypes.BOOLEAN(),
-      allowNull: false,
-      field: "is_system",
+      field: "permission_id",
     },
     created_at: DataTypes.DATE,
     updated_at: DataTypes.DATE,
   },
+
   {
-    tableName: "roles",
+    tableName: "roles_permissions",
     sequelize,
     createdAt: "created_at",
     updatedAt: "updated_at",

@@ -4,26 +4,21 @@ import {
   InferAttributes,
   InferCreationAttributes,
   Model,
-  NonAttribute,
 } from "sequelize";
-import { sequelize } from ".";
-import { Permission } from "./permission";
+import { sequelize } from "./index";
 
-export class Role extends Model<
-  InferAttributes<Role>,
-  InferCreationAttributes<Role>
+export class PermissionObject extends Model<
+  InferAttributes<PermissionObject>,
+  InferCreationAttributes<PermissionObject>
 > {
   declare id: CreationOptional<number>;
   declare name: string;
   declare slugname: string;
   declare isSystem: boolean;
-  declare users?: NonAttribute<Role[]>;
-  declare permissions?: NonAttribute<Permission[]>;
   declare created_at: CreationOptional<Date>;
   declare updated_at: CreationOptional<Date>;
 }
-
-Role.init(
+PermissionObject.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -32,7 +27,7 @@ Role.init(
     },
     name: {
       type: new DataTypes.STRING(128),
-      allowNull: false,
+      allowNull: true,
     },
     slugname: {
       type: new DataTypes.STRING(128),
@@ -40,14 +35,14 @@ Role.init(
     },
     isSystem: {
       type: new DataTypes.BOOLEAN(),
-      allowNull: false,
+      allowNull: true,
       field: "is_system",
     },
     created_at: DataTypes.DATE,
     updated_at: DataTypes.DATE,
   },
   {
-    tableName: "roles",
+    tableName: "permission_objects",
     sequelize,
     createdAt: "created_at",
     updatedAt: "updated_at",

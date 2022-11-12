@@ -1,7 +1,7 @@
 "use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Permission_objects", {
+    await queryInterface.createTable("permission_objects", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -22,8 +22,16 @@ module.exports = {
         isNullable: false,
         default: false,
       },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
     });
-    await queryInterface.addConstraint("Permission_objects", {
+    await queryInterface.addConstraint("permission_objects", {
       type: "UNIQUE",
       name: "slugname_unique",
       fields: ["slugname"],
@@ -32,9 +40,9 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     await queryInterface.removeConstraint(
-      "Permission_objects",
+      "permission_objects",
       "slugname_unique"
     );
-    await queryInterface.dropTable("Permission_objects");
+    await queryInterface.dropTable("permission_objects");
   },
 };

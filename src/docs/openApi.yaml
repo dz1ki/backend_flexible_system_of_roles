@@ -144,7 +144,7 @@ components:
         email:
           type: string
           description: User email
-          example: doel123@examples.com
+          example: pete7833@examples.com
         code:
           type: string
           description: Email verification code.

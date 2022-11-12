@@ -4,9 +4,10 @@ import {
   InferAttributes,
   InferCreationAttributes,
   Model,
+  NonAttribute,
 } from "sequelize";
+import { sequelize } from ".";
 import { Role } from "./role";
-import { sequelize } from "./index";
 
 export class User extends Model<
   InferAttributes<User>,
@@ -17,10 +18,13 @@ export class User extends Model<
   declare firstName: string;
   declare lastName: string;
   declare email: string;
-  declare mail_confirmation_code: string;
-  declare createdAt: CreationOptional<Date>;
-  declare updatedAt: CreationOptional<Date>;
+  declare emailConfirmed: boolean;
+  declare roles?: NonAttribute<Role[]>;
+  declare mailConfirmationCode: string;
+  declare created_at: CreationOptional<Date>;
+  declare updated_at: CreationOptional<Date>;
 }
+
 User.init(
   {
     id: {
@@ -35,26 +39,34 @@ User.init(
     firstName: {
       type: new DataTypes.STRING(128),
       allowNull: false,
+      field: "first_name",
     },
     lastName: {
       type: new DataTypes.STRING(128),
       allowNull: true,
+      field: "last_name",
     },
     email: {
       type: new DataTypes.STRING(128),
       allowNull: true,
     },
-    mail_confirmation_code: {
+    emailConfirmed: {
+      type: new DataTypes.BOOLEAN(),
+      field: "email_confirmed",
+    },
+    mailConfirmationCode: {
       type: new DataTypes.STRING(128),
       allowNull: true,
+      field: "mail_confirmation_code",
     },
 
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE,
+    created_at: DataTypes.DATE,
+    updated_at: DataTypes.DATE,
   },
   {
-    tableName: "Users",
+    tableName: "users",
     sequelize,
+    createdAt: "created_at",
+    updatedAt: "updated_at",
   }
 );
-
