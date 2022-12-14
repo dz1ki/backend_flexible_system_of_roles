@@ -4,15 +4,20 @@ import {
   authorization,
   checkEmail,
   emailConfirmed,
-  listUser,
+  findUser,
   registration,
   updatePassword,
+  updateUser,
+  dropUser,
 } from "./controller";
 
-export const users: express.IRouter = express.Router();
-users.get("/list", authMiddleware, listUser);
-users.post("/registration", registration);
-users.post("/check-email", checkEmail);
-users.get("/email-confirmed", emailConfirmed);
-users.post("/authorization", authorization);
-users.patch("/update-password", authMiddleware, updatePassword);
+export const user: express.IRouter = express.Router();
+user.post("/registration", registration);
+user.post("/authorization", authorization);
+user.patch("/update", authMiddleware, updateUser);
+user.get("/find", authMiddleware, findUser);
+user.delete("/drop", authMiddleware, dropUser);
+user.put("/update-password", authMiddleware, updatePassword);
+
+user.post("/check-email", checkEmail);
+user.get("/email-confirmed", emailConfirmed);

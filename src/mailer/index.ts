@@ -3,7 +3,7 @@ import * as config from "config";
 
 export const transporter = async (ownerEmail: string) => {
   try {
-    return await nodemailer.createTransport({
+    return nodemailer.createTransport({
       host: config.get("mailer.host"),
       port: config.get("mailer.port"),
       // secure: config.get("mailer.secure"),

@@ -1,9 +1,38 @@
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
-import { SECRET_KEY } from "../data/constants";
+import * as config from "config";
+import { User } from "src/models/user";
+import { sendToEmailConfirmation } from "../mailer/mailer";
+
+export function checkUniqueEmail(findUser: User) {
+  if (findUser) {
+    throw { message: "User with this email already exists", statusCode: 400 };
+  }
+}
+
+export function checkUser(findUser: User) {
+  if (!findUser) {
+    throw { message: "No such user exists", statusCode: 404 };
+  }
+}
+
+export function checkPasswordUser(resultParse: boolean) {
+  if (!resultParse) {
+    throw { message: "Wrong password", statusCode: 400 };
+  }
+}
 
 export function randomCharacterGenerator() {
   return Math.random().toString(36).substring(2, 7);
+}
+
+export function checkOrChangingMail(newEmailUser: string) {
+  let newCodeEmailConfirmed: string;
+  if (newEmailUser) {
+    newCodeEmailConfirmed = randomCharacterGenerator();
+    sendToEmailConfirmation(newEmailUser, newCodeEmailConfirmed);
+  }
+  return newCodeEmailConfirmed;
 }
 
 export async function hashPassword(passwordUser: string) {
@@ -14,7 +43,7 @@ export async function parsePassword(password: string, passwordDB: string) {
 }
 
 export function generateJwt(id: number, email: string) {
-  return jwt.sign({ id, email }, SECRET_KEY, {
+  return jwt.sign({ id, email }, config.get("JWT.key"), {
     expiresIn: "24h",
   });
 }

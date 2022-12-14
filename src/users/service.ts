@@ -1,15 +1,15 @@
-import { sendToEmail } from "../mailer/mailer";
+import { sendToEmailConfirmation } from "../mailer/mailer";
 import { User } from "../models/user";
 import {
+  checkOrChangingMail,
+  checkPasswordUser,
+  checkUniqueEmail,
+  checkUser,
   generateJwt,
   hashPassword,
   parsePassword,
   randomCharacterGenerator,
 } from "./helper";
-
-export async function list() {
-  return await User.findAll({});
-}
 
 export async function registrationUser(
   userEmail: string,
@@ -17,12 +17,10 @@ export async function registrationUser(
   lastName: string,
   passwordUser: string
 ) {
-  const mailConfirmationCode = randomCharacterGenerator();
   const findUser = await User.findOne({ where: { email: userEmail } });
-  if (findUser) {
-    throw { message: "User with this email already exists" };
-  }
+  checkUniqueEmail(findUser);
   const resultHash = await hashPassword(passwordUser);
+  const mailConfirmationCode = randomCharacterGenerator();
   await User.create({
     email: userEmail,
     firstName,
@@ -30,10 +28,67 @@ export async function registrationUser(
     mailConfirmationCode,
     password: resultHash,
   });
-  await sendToEmail(userEmail, mailConfirmationCode);
+  await sendToEmailConfirmation(userEmail, mailConfirmationCode);
   return {
     message: `User registered. A confirmation email has been sent to ${userEmail}`,
+    statusCode: 201,
   };
+}
+
+export async function authorizationUser(emailUser: string, password: string) {
+  const findUser = await User.findOne({ where: { email: emailUser } });
+  checkUser(findUser);
+  const resultParse = await parsePassword(password, findUser.password);
+  checkPasswordUser(resultParse);
+  const token = generateJwt(findUser.id, findUser.email);
+  return { message: "User is authorized", token, statusCode: 201 };
+}
+
+export async function updateUserData(
+  oldEmail: string,
+  newEmail: string,
+  firstName: string,
+  lastName: string
+) {
+  const newCodeEmailConfirmed = checkOrChangingMail(newEmail);
+  await User.update(
+    {
+      email: newEmail,
+      firstName,
+      lastName,
+      mailConfirmationCode: newCodeEmailConfirmed,
+    },
+    { where: { email: oldEmail } }
+  );
+  if (newCodeEmailConfirmed) {
+    return {
+      message: `User updated. A confirmation email has been sent to ${newEmail}`,
+      statusCode: 201,
+    };
+  }
+  return { message: "User updated.", statusCode: 201 };
+}
+
+export async function updatePasswordUser(
+  oldPassword: string,
+  newPassword: string,
+  repeatNewPassword: string,
+  userEmail: string
+) {
+  if (!(newPassword === repeatNewPassword)) {
+    throw { message: "New passwords do not match", statusCode: 400 };
+  }
+  const oneUser = await User.findOne({ where: { email: userEmail } });
+  const resultParse = await parsePassword(oldPassword, oneUser.password);
+  if (!resultParse) {
+    throw { message: "Wrong password", statusCode: 400 };
+  }
+  const hashNewPassword = await hashPassword(newPassword);
+  await User.update(
+    { password: hashNewPassword },
+    { where: { email: userEmail } }
+  );
+  return { message: "Password changed successfully.", statusCode: 201 };
 }
 
 export async function checkEmailUser(
@@ -46,39 +101,4 @@ export async function checkEmailUser(
     return { message: "Email confirmed" };
   }
   return { message: "Mail not confirmed." };
-}
-
-export async function authorizationUser(emailUser: string, password: string) {
-  const findUser = await User.findOne({ where: { email: emailUser } });
-  if (!findUser) {
-    throw { message: "No such user exists" };
-  }
-  const resultParse = await parsePassword(password, findUser.password);
-  if (!resultParse) {
-    throw { message: "Wrong password" };
-  }
-  const token = generateJwt(findUser.id, findUser.email);
-  return { message: "User is authorized", token };
-}
-
-export async function updatePasswordUser(
-  oldPassword: string,
-  newPassword: string,
-  repeatNewPassword: string,
-  userEmail: string
-) {
-  if (!(newPassword === repeatNewPassword)) {
-    throw { message: "New passwords do not match" };
-  }
-  const oneUser = await User.findOne({ where: { email: userEmail } });
-  const resultParse = await parsePassword(oldPassword, oneUser.password);
-  if (!resultParse) {
-    throw { message: "Wrong password" };
-  }
-  const hashNewPassword = await hashPassword(newPassword);
-  await User.update(
-    { password: hashNewPassword },
-    { where: { email: userEmail } }
-  );
-  return { message: "Password changed successfully." };
 }

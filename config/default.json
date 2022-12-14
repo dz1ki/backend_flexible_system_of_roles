@@ -16,5 +16,8 @@
     "host": "localhost",
     "secure": false,
     "passwordEmail": ""
+  },
+  "JWT": {
+    "key": ""
   }
 }

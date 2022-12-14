@@ -1,7 +1,10 @@
 import { ownerEmail, ownerFirstName, URL_SERVER } from "../data/constants";
 import { transporter } from "./index";
 
-export async function sendToEmail(clientEmail: string, code: string) {
+export async function sendToEmailConfirmation(
+  clientEmail: string,
+  code: string
+) {
   const mailer = await transporter(ownerEmail);
   await mailer.sendMail({
     from: `"${ownerFirstName}" <${ownerEmail}>`,
