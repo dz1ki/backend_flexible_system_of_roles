@@ -2,6 +2,7 @@ import { ownerEmail, ownerFirstName, URL_SERVER } from "../data/constants";
 import { transporter } from "./index";
 
 export async function sendToEmailConfirmation(
+  userId: number,
   clientEmail: string,
   code: string
 ) {
@@ -11,31 +12,15 @@ export async function sendToEmailConfirmation(
     to: `${clientEmail}  `,
     subject: "Email confirmation",
     html: `
-    <html>
-    <head>
-      <script language="javascript">
-        function submitPostLink() {
-          document.postlink.submit();
-        }
-      </script>
-    </head>
-    <body>
-      <form
-        action="${URL_SERVER}/user/check-email"
-        name="postlink"
-        method="post"
-      >
-        <input type="hidden" name="email" value="${clientEmail}" />
-        <input type="hidden" name="code" value="${code}" />
-      </form>
-      <p>
-        Clic
-        <a href="${URL_SERVER}/user/email-confirmed" onclick="submitPostLink()"
-          >link</a
-        >
-        confirm email.
-      </p>
-    </body>
-  </html>`,
+       <form action="${URL_SERVER}/user/check-email" method="post">
+         <div>
+           <input type="hidden" name="userId" value="${userId}" />
+           <input type="hidden" name="code" value="${code}" />
+         </div>
+         <div>
+           <button>Click to confirm email</button>
+         </div>
+       </form>
+  `,
   });
 }

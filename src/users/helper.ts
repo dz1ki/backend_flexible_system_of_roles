@@ -2,7 +2,6 @@ import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import * as config from "config";
 import { User } from "src/models/user";
-import { sendToEmailConfirmation } from "../mailer/mailer";
 
 export function checkUniqueEmail(findUser: User) {
   if (findUser) {
@@ -26,18 +25,10 @@ export function randomCharacterGenerator() {
   return Math.random().toString(36).substring(2, 7);
 }
 
-export function checkOrChangingMail(newEmailUser: string) {
-  let newCodeEmailConfirmed: string;
-  if (newEmailUser) {
-    newCodeEmailConfirmed = randomCharacterGenerator();
-    sendToEmailConfirmation(newEmailUser, newCodeEmailConfirmed);
-  }
-  return newCodeEmailConfirmed;
-}
-
 export async function hashPassword(passwordUser: string) {
   return await bcrypt.hash(passwordUser, 5);
 }
+
 export async function parsePassword(password: string, passwordDB: string) {
   return await bcrypt.compare(password, passwordDB);
 }

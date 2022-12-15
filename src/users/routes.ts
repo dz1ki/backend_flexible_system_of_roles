@@ -3,7 +3,6 @@ import { authMiddleware } from "../middlewares/auth.middeleware";
 import {
   authorization,
   checkEmail,
-  emailConfirmed,
   findUser,
   registration,
   updatePassword,
@@ -18,6 +17,4 @@ user.patch("/update", authMiddleware, updateUser);
 user.get("/find", authMiddleware, findUser);
 user.delete("/drop", authMiddleware, dropUser);
 user.put("/update-password", authMiddleware, updatePassword);
-
 user.post("/check-email", checkEmail);
-user.get("/email-confirmed", emailConfirmed);

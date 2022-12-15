@@ -34,7 +34,7 @@ export type DropUserDto = {
 
 export type checkEmailDTO = {
   body: {
-    email: string;
+    userId: number;
     code: string;
   };
 };

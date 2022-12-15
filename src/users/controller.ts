@@ -45,9 +45,9 @@ export async function authorization(req: AuthorizationDTO, res) {
 
 export async function updateUser(req: UpdateUserDTO, res) {
   try {
-    const { email } = req.user;
+    const { id } = req.user;
     const { newEmail, firstName, lastName } = req.body;
-    const result = await updateUserData(email, newEmail, firstName, lastName);
+    const result = await updateUserData(id, newEmail, firstName, lastName);
     res.status(result.statusCode || 200).json(result.message);
   } catch (error) {
     res.status(error.statusCode || 500).json(error.message || "Server error");
@@ -56,8 +56,8 @@ export async function updateUser(req: UpdateUserDTO, res) {
 
 export async function findUser(req: ListUserDTO, res) {
   try {
-    const { email } = req.user;
-    const result = await User.findOne({ where: { email } });
+    const { id } = req.user;
+    const result = await User.findOne({ where: { id } });
     res.status(200).json(result);
   } catch (error) {
     res.status(error.statusCode || 500).json(error.message || "Server error");
@@ -66,8 +66,8 @@ export async function findUser(req: ListUserDTO, res) {
 
 export async function dropUser(req: DropUserDto, res) {
   try {
-    const { email } = req.user;
-    await User.destroy({ where: { email } });
+    const { id } = req.user;
+    await User.destroy({ where: { id } });
     res.status(200).json({ message: "User deleted successfully." });
   } catch (error) {
     res.status(error.statusCode || 500).json(error.message || "Server error");
@@ -76,13 +76,13 @@ export async function dropUser(req: DropUserDto, res) {
 
 export async function updatePassword(req: UpdatePasswordDTO, res) {
   try {
-    const { email } = req.user;
+    const { id } = req.user;
     const { oldPassword, newPassword, repeatNewPassword } = req.body;
     const result = await updatePasswordUser(
       oldPassword,
       newPassword,
       repeatNewPassword,
-      email
+      id
     );
     res.status(result.statusCode || 200).json(result.message);
   } catch (error) {
@@ -92,18 +92,9 @@ export async function updatePassword(req: UpdatePasswordDTO, res) {
 
 export async function checkEmail(req: checkEmailDTO, res) {
   try {
-    const { email, code } = req.body;
-    const result = await checkEmailUser(email, code);
-    res.status(200).json(result);
-  } catch (e) {
-    console.log(e);
-    res.status(500).send({ message: e.message || "Server error" });
-  }
-}
-
-export async function emailConfirmed(req, res) {
-  try {
-    res.status(200).json({ message: "Your email has been verified" });
+    const { userId, code } = req.body;
+    const result = await checkEmailUser(userId, code);
+    res.status(result.statusCode || 200).json(result.message);
   } catch (e) {
     console.log(e);
     res.status(500).send({ message: e.message || "Server error" });

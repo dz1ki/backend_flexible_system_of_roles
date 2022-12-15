@@ -70,6 +70,8 @@ paths:
           description: Succes.
         201:
           description: User update.
+        400:
+          description: User with this email already exists.
         401:
           description: Not authorized.
         500:
@@ -129,33 +131,26 @@ paths:
           description: Not authorized.
         500:
           description: Server error.
-  # /user/email-confirmed:
-  #   get:
-  #     tags:
-  #       - User
-  #     summary: go to the page after confirming the email.
-  #     responses:
-  #       200:
-  #         description: Succes
-  #       500:
-  #         description: Server error
 
-  # /user/check-email:
-  #   post:
-  #     tags:
-  #       - User
-  #     summary: Check email user .
-  #     requestBody:
-  #       required: true
-  #       content:
-  #         application/x-www-form-urlencoded:
-  #           schema:
-  #             $ref: "#/components/schemas/CheckEmail"
-  #     responses:
-  #       200:
-  #         description: Succes
-  #       500:
-  #         description: Server error
+  /user/check-email:
+    post:
+      tags:
+        - No implementation
+      summary: Check email user.
+      requestBody:
+        required: true
+        description: The user is sent an html form with a link and data to confirm the mail.
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/checkEmail"
+      responses:
+        200:
+          description: Succes.
+        404:
+          description: Email not confirmed, you may be using an old email.
+        500:
+          description: Server error.
 
 components:
   securitySchemes:
@@ -241,14 +236,17 @@ components:
           description: Repeat new user password
           example: "3232d"
 
-    # CheckEmail:
-    #   type: object
-    #   properties:
-    #     email:
-    #       type: string
-    #       description: User email
-    #       example: pete7833@examples.com
-    #     code:
-    #       type: string
-    #       description: Email verification code.
-    #       example: YT45
+    checkEmail:
+      type: object
+      required:
+        - userId
+        - code
+      properties:
+        userId:
+          type: string
+          description: User id.
+          example: 1
+        code:
+          type: string
+          description: Email verification code.
+          example: YT45
