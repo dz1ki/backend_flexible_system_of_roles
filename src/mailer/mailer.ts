@@ -21,7 +21,7 @@ export async function sendToEmailConfirmation(
     </head>
     <body>
       <form
-        action="${URL_SERVER}/users/check-email"
+        action="${URL_SERVER}/user/check-email"
         name="postlink"
         method="post"
       >
@@ -30,7 +30,7 @@ export async function sendToEmailConfirmation(
       </form>
       <p>
         Clic
-        <a href="${URL_SERVER}/users/email-confirmed" onclick="submitPostLink()"
+        <a href="${URL_SERVER}/user/email-confirmed" onclick="submitPostLink()"
           >link</a
         >
         confirm email.
