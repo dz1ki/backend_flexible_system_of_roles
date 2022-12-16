@@ -8,14 +8,15 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-
       name: {
         type: Sequelize.STRING,
         isNullable: false,
+        unique: true,
       },
       slugname: {
         type: Sequelize.STRING,
         isNullable: false,
+        unique: true,
       },
       is_system: {
         type: Sequelize.BOOLEAN,

@@ -7,10 +7,11 @@ async function test() {
   const resultUser = await User.findAll({
     // where: { email: "doel123@examples.com" },
     include: { all: true, nested: true },
-    // raw: true,
+    raw: true,
     nest: true,
   });
-  console.log("🚀 ~ test ~ resultUser", JSON.stringify(resultUser));
+  console.log("🚀 ~ test ~ resultUser", resultUser);
+
   // resultUser.forEach((user) => {
   //   console.log("🚀 ~ resultUser.forEach ~ user", user.roles);
   // });

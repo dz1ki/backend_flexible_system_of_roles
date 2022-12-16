@@ -57,7 +57,10 @@ export async function updateUser(req: UpdateUserDTO, res) {
 export async function findUser(req: ListUserDTO, res) {
   try {
     const { id } = req.user;
-    const result = await User.findOne({ where: { id } });
+    const result = await User.findOne({
+      where: { id },
+      include: { all: true, nested: true },
+    });
     res.status(200).json(result);
   } catch (error) {
     res.status(error.statusCode || 500).json(error.message || "Server error");

@@ -1,7 +1,4 @@
-type MiddelewareAuthDTO = {
-  email: string;
-  id: number;
-};
+import { MiddelewareAuthDTO } from "./common";
 
 export type RegistrationDTO = {
   body: {

@@ -152,6 +152,90 @@ paths:
         500:
           description: Server error.
 
+  /role/create:
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Role
+      summary: Create new role.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createRole"
+      responses:
+        200:
+          description: Succes.
+        201:
+          description: Role save
+        400:
+          description: This role already exists or name must not contain characters.
+        500:
+          description: Server error.
+
+  /role/update:
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+        - Role
+      summary: Update role.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateRole"
+      responses:
+        200:
+          description: Succes.
+        400:
+          description: This Role already exists or the name is invalid.
+        403:
+          description: The role is system.
+        500:
+          description: Server error.
+
+  /role/find:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Role
+      summary: Find all Role.
+      responses:
+        200:
+          description: Succes.
+        401:
+          description: Not authorized.
+        500:
+          description: Server error.
+
+  /role/delete:
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Role
+      summary: Delete role.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/deleteRole"
+      responses:
+        200:
+          description: Succes.
+        403:
+          description: This is a system role.
+        404:
+          description: No such role exists.
+        500:
+          description: Server error.
+
 components:
   securitySchemes:
     bearerAuth:
@@ -193,11 +277,11 @@ components:
         email:
           type: string
           description: User email
-          example: pete7833@examples.com
+          example: admin@example.com
         password:
           type: string
           description: Password user.
-          example: 21dsa
+          example: admin
 
     updateUser:
       type: object
@@ -218,6 +302,7 @@ components:
 
     updatePassword:
       type: object
+      additionalProperties: false
       required:
         - oldPassword
         - newPassword
@@ -238,6 +323,7 @@ components:
 
     checkEmail:
       type: object
+      additionalProperties: false
       required:
         - userId
         - code
@@ -250,3 +336,41 @@ components:
           type: string
           description: Email verification code.
           example: YT45
+
+    createRole:
+      type: object
+      additionalProperties: false
+      required:
+        - newRole
+      properties:
+        newRole:
+          type: string
+          description: Name role.
+          example: Moderator
+
+    updateRole:
+      type: object
+      additionalProperties: false
+      required:
+        - idRole
+        - newName
+      properties:
+        idRole:
+          type: number
+          description: id role.
+          example: 3
+        newName:
+          type: string
+          description: Name role.
+          example: Logist
+
+    deleteRole:
+      type: object
+      additionalProperties: false
+      required:
+        - idRole
+      properties:
+        idRole:
+          type: number
+          description: id role.
+          example: 3
