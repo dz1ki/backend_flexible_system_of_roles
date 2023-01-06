@@ -40,7 +40,6 @@ Role.init(
     },
     isSystem: {
       type: new DataTypes.BOOLEAN(),
-      allowNull: false,
       field: "is_system",
     },
     created_at: DataTypes.DATE,

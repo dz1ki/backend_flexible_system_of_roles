@@ -19,6 +19,7 @@ export class User extends Model<
   declare lastName: string;
   declare email: string;
   declare emailConfirmed: boolean;
+  declare isSystem: boolean;
   declare roles?: NonAttribute<Role[]>;
   declare mailConfirmationCode: string;
   declare created_at: CreationOptional<Date>;
@@ -38,12 +39,10 @@ User.init(
     },
     firstName: {
       type: new DataTypes.STRING(128),
-      allowNull: false,
       field: "first_name",
     },
     lastName: {
       type: new DataTypes.STRING(128),
-      allowNull: true,
       field: "last_name",
     },
     email: {
@@ -56,10 +55,14 @@ User.init(
     },
     mailConfirmationCode: {
       type: new DataTypes.STRING(128),
-      allowNull: true,
+      allowNull: false,
       field: "mail_confirmation_code",
     },
 
+    isSystem: {
+      type: new DataTypes.BOOLEAN(),
+      field: "is_system",
+    },
     created_at: DataTypes.DATE,
     updated_at: DataTypes.DATE,
   },

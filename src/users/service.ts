@@ -1,8 +1,12 @@
 import { sendToEmailConfirmation } from "../mailer/mailer";
 import { User } from "../models/user";
+import { UserRole } from "../models/user.role";
 import {
+  checkIsSustemUserRole,
   checkPasswordUser,
+  checkRoleUser,
   checkUniqueEmail,
+  checkUniqueRoleUser,
   checkUser,
   generateJwt,
   hashPassword,
@@ -108,4 +112,17 @@ export async function checkEmailUser(userId: number, codeConfirmation: string) {
     message: "Email not confirmed, you may be using an old email.",
     statusCode: 404,
   };
+}
+
+export async function addRoleUser(roleId: number, userId: number) {
+  await checkUniqueRoleUser(roleId, userId);
+  await UserRole.create({ roleId, userId });
+  return { message: "Role added to user", statusCode: 201 };
+}
+
+export async function dropRoleUser(roleId: number, userId: number) {
+  await checkRoleUser(roleId, userId);
+  await checkIsSustemUserRole(roleId, userId);
+  await UserRole.destroy({ where: { roleId, userId } });
+  return { message: "Role delete at user", statusCode: 200 };
 }

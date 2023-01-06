@@ -8,9 +8,12 @@ import {
   UpdatePasswordDTO,
   UpdateUserDTO,
 } from "../types/user";
+import { checkIsSystem } from "./helper";
 import {
+  addRoleUser,
   authorizationUser,
   checkEmailUser,
+  dropRoleUser,
   registrationUser,
   updatePasswordUser,
   updateUserData,
@@ -70,7 +73,9 @@ export async function findUser(req: ListUserDTO, res) {
 export async function dropUser(req: DropUserDto, res) {
   try {
     const { id } = req.user;
-    await User.destroy({ where: { id } });
+    const user = await User.findOne({ where: { id } });
+    checkIsSystem(user.isSystem);
+    await user.destroy();
     res.status(200).json({ message: "User deleted successfully." });
   } catch (error) {
     res.status(error.statusCode || 500).json(error.message || "Server error");
@@ -99,7 +104,35 @@ export async function checkEmail(req: checkEmailDTO, res) {
     const result = await checkEmailUser(userId, code);
     res.status(result.statusCode || 200).json(result.message);
   } catch (e) {
-    console.log(e);
+    res.status(500).send({ message: e.message || "Server error" });
+  }
+}
+
+export async function findAllUser(req, res) {
+  try {
+    const result = await User.findAll();
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(error.statusCode || 500).json(error.message || "Server error");
+  }
+}
+
+export async function roleAdd(req, res) {
+  try {
+    const { roleId, userId } = req.body;
+    const result = await addRoleUser(roleId, userId);
+    res.status(result.statusCode || 200).json(result.message);
+  } catch (e) {
+    res.status(500).send({ message: e.message || "Server error" });
+  }
+}
+
+export async function roleDrop(req, res) {
+  try {
+    const { roleId, userId } = req.body;
+    const result = await dropRoleUser(roleId, userId);
+    res.status(result.statusCode || 200).json(result.message);
+  } catch (e) {
     res.status(500).send({ message: e.message || "Server error" });
   }
 }

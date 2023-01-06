@@ -12,7 +12,7 @@ module.exports = {
       object_id: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
-        isNullable: false,
+        allowNull: false,
         references: {
           model: "permission_objects",
           key: "id",
@@ -21,17 +21,17 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        isNullable: false,
+        allowNull: false,
       },
       action: {
         type: Sequelize.ENUM,
-        isNullable: false,
+        allowNull: false,
         values: ["Read", "Create", "Update", "Delete"],
       },
       is_system: {
         type: Sequelize.BOOLEAN,
-        default: false,
-        isNullable: false,
+        defaultValue: false,
+        allowNull: false,
       },
       created_at: {
         allowNull: false,

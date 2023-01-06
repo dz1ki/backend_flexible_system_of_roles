@@ -30,7 +30,10 @@ Permission.belongsToMany(Role, {
   sourceKey: "id",
 });
 
-PermissionObject.hasMany(Permission, { foreignKey: "id" });
+PermissionObject.hasMany(Permission, {
+  foreignKey: "id",
+  as: "permissions",
+});
 Permission.belongsTo(PermissionObject, {
   foreignKey: "object_id",
   as: "permissionObject",

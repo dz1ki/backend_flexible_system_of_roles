@@ -2,6 +2,7 @@ import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import * as config from "config";
 import { User } from "src/models/user";
+import { UserRole } from "../models/user.role";
 
 export function checkUniqueEmail(findUser: User) {
   if (findUser) {
@@ -37,4 +38,38 @@ export function generateJwt(id: number, email: string) {
   return jwt.sign({ id, email }, config.get("JWT.key"), {
     expiresIn: "24h",
   });
+}
+
+export async function checkUniqueRoleUser(roleId: number, userId: number) {
+  const userRole = await UserRole.findOne({
+    where: { roleId, userId },
+  });
+  if (userRole) {
+    throw { message: "This user already has this role" };
+  }
+}
+
+export async function checkRoleUser(roleId: number, userId: number) {
+  const userRole = await UserRole.findOne({
+    where: { roleId, userId },
+  });
+  if (!userRole) {
+    throw { message: "User does not have this role" };
+  }
+}
+
+export async function checkIsSustemUserRole(roleId, userId) {
+  const userRole = await UserRole.findOne({
+    where: { roleId, userId },
+    attributes: ["isSystem"],
+  });
+  if (userRole.isSystem) {
+    throw { message: "Not possible to remove" };
+  }
+}
+
+export function checkIsSystem(isSystem: boolean) {
+  if (isSystem) {
+    throw { message: "Not possible to remove", statusCode: 400 };
+  }
 }

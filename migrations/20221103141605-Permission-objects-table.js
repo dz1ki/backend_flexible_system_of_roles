@@ -11,16 +11,16 @@ module.exports = {
 
       name: {
         type: Sequelize.STRING,
-        isNullable: false,
+        allowNull: false,
       },
       slugname: {
         type: Sequelize.STRING,
-        isNullable: false,
+        allowNull: false,
       },
       is_system: {
         type: Sequelize.BOOLEAN,
-        isNullable: false,
-        default: false,
+        defaultValue: false,
+        allowNull: false,
       },
       created_at: {
         allowNull: false,

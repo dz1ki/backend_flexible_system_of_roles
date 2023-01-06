@@ -12,7 +12,7 @@ module.exports = {
       role_id: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
-        isNullable: false,
+        allowNull: false,
         references: {
           model: "roles",
           key: "id",
@@ -22,13 +22,20 @@ module.exports = {
       permission_id: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
-        isNullable: false,
+        allowNull: false,
         references: {
           model: "permissions",
           key: "id",
           as: "permission_id",
         },
       },
+
+      is_system: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
+      },
+
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,

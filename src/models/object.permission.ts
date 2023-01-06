@@ -27,7 +27,7 @@ PermissionObject.init(
     },
     name: {
       type: new DataTypes.STRING(128),
-      allowNull: true,
+      allowNull: false,
     },
     slugname: {
       type: new DataTypes.STRING(128),
@@ -35,7 +35,6 @@ PermissionObject.init(
     },
     isSystem: {
       type: new DataTypes.BOOLEAN(),
-      allowNull: true,
       field: "is_system",
     },
     created_at: DataTypes.DATE,

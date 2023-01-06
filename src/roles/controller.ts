@@ -1,11 +1,17 @@
 import { Role } from "../models/role";
 import { AddRoleDTO, UpdateRoleDTO } from "../types/role";
-import { addRole, dropRole, updateOneRole } from "./service";
+import {
+  addPermissionRole,
+  addRole,
+  dropPermissionRole,
+  dropRole,
+  updateOneRole,
+} from "./service";
 
 export async function createRole(req: AddRoleDTO, res) {
   try {
-    const { newRole } = req.body;
-    const result = await addRole(newRole);
+    const { name } = req.body;
+    const result = await addRole(name);
     res.status(result.statusCode || 200).json(result.message);
   } catch (error) {
     res.status(error.statusCode || 500).json(error.message || "Server error");
@@ -14,8 +20,8 @@ export async function createRole(req: AddRoleDTO, res) {
 
 export async function updateRole(req: UpdateRoleDTO, res) {
   try {
-    const { idRole, newName } = req.body;
-    const result = await updateOneRole(idRole, newName);
+    const { id, name } = req.body;
+    const result = await updateOneRole(id, name);
     res.status(result.statusCode || 200).json(result.message);
   } catch (error) {
     res.status(error.statusCode || 500).json(error.message || "Server error");
@@ -33,17 +39,29 @@ export async function findRole(req, res) {
 
 export async function deleteRole(req, res) {
   try {
-    const { idRole } = req.body;
-    const result = await dropRole(idRole);
+    const { id } = req.body;
+    const result = await dropRole(id);
     res.status(result.statusCode || 200).json(result.message);
   } catch (error) {
     res.status(error.statusCode || 500).json(error.message || "Server error");
   }
 }
 
-export async function addRoleUser(req, res) {
+export async function addPermission(req, res) {
   try {
-    // res.status(result.statusCode || 200).json(result.message);
+    const { permissionId, roleId } = req.body;
+    const result = await addPermissionRole(permissionId, roleId);
+    res.status(result.statusCode || 200).json(result.message);
+  } catch (error) {
+    res.status(error.statusCode || 500).json(error.message || "Server error");
+  }
+}
+
+export async function dropPermission(req, res) {
+  try {
+    const { permissionId, roleId } = req.body;
+    const result = await dropPermissionRole(permissionId, roleId);
+    res.status(result.statusCode || 200).json(result.message);
   } catch (error) {
     res.status(error.statusCode || 500).json(error.message || "Server error");
   }

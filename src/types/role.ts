@@ -1,10 +1,10 @@
 export type AddRoleDTO = {
-  body: { newRole: string };
+  body: { name: string };
 };
 
 export type UpdateRoleDTO = {
   body: {
-    idRole: number;
-    newName: string;
+    id: number;
+    name: string;
   };
 };

@@ -41,7 +41,7 @@ Permission.init(
     },
     objectId: {
       type: new DataTypes.INTEGER(),
-      allowNull: true,
+      allowNull: false,
       field: "object_id",
     },
     name: {
@@ -51,11 +51,10 @@ Permission.init(
     action: {
       type: new DataTypes.ENUM(),
       values: ["Read", "Create", "Update", "Delete"],
-      allowNull: true,
+      allowNull: false,
     },
     isSystem: {
       type: new DataTypes.BOOLEAN(),
-      allowNull: true,
       field: "is_system",
     },
     created_at: DataTypes.DATE,

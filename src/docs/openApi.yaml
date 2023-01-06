@@ -77,6 +77,44 @@ paths:
         500:
           description: Server error.
 
+  /user/add_role:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: Add role to user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/addRoleUser"
+      responses:
+        200:
+          description: Succes.
+        500:
+          description: Server error.
+
+  /user/drop_role:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: Delete role to user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/deleteRoleUser"
+      responses:
+        200:
+          description: Succes.
+        500:
+          description: Server error.
+
   /user/find:
     get:
       security:
@@ -84,6 +122,21 @@ paths:
       tags:
         - User
       summary: Find user data.
+      responses:
+        200:
+          description: Succes.
+        401:
+          description: Not authorized.
+        500:
+          description: Server error.
+
+  /user/list:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: List all users.
       responses:
         200:
           description: Succes.
@@ -132,26 +185,6 @@ paths:
         500:
           description: Server error.
 
-  /user/check-email:
-    post:
-      tags:
-        - No implementation
-      summary: Check email user.
-      requestBody:
-        required: true
-        description: The user is sent an html form with a link and data to confirm the mail.
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: "#/components/schemas/checkEmail"
-      responses:
-        200:
-          description: Succes.
-        404:
-          description: Email not confirmed, you may be using an old email.
-        500:
-          description: Server error.
-
   /role/create:
     post:
       security:
@@ -176,12 +209,12 @@ paths:
           description: Server error.
 
   /role/update:
-    put:
+    patch:
       security:
         - bearerAuth: []
       tags:
         - Role
-      summary: Update role.
+      summary: Update name role.
       requestBody:
         required: true
         content:
@@ -195,6 +228,44 @@ paths:
           description: This Role already exists or the name is invalid.
         403:
           description: The role is system.
+        500:
+          description: Server error.
+
+  /role/add_permission:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - Role
+      summary: Add role to permission.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/addPermission"
+      responses:
+        200:
+          description: Succes.
+        500:
+          description: Server error.
+
+  /role/drop_permission:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - Role
+      summary: Delete role at permission.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/dropPermission"
+      responses:
+        200:
+          description: Succes.
         500:
           description: Server error.
 
@@ -233,6 +304,40 @@ paths:
           description: This is a system role.
         404:
           description: No such role exists.
+        500:
+          description: Server error.
+
+  /permission/list:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Permission
+      summary: List all permissions.
+      responses:
+        200:
+          description: Succes.
+        401:
+          description: Not authorized.
+        500:
+          description: Server error.
+  /user/check-email:
+    post:
+      tags:
+        - No implementation
+      summary: Check email user.
+      requestBody:
+        required: true
+        description: The user is sent an html form with a link and data to confirm the mail.
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/checkEmail"
+      responses:
+        200:
+          description: Succes.
+        404:
+          description: Email not confirmed, you may be using an old email.
         500:
           description: Server error.
 
@@ -341,9 +446,9 @@ components:
       type: object
       additionalProperties: false
       required:
-        - newRole
+        - name
       properties:
-        newRole:
+        name:
           type: string
           description: Name role.
           example: Moderator
@@ -352,14 +457,14 @@ components:
       type: object
       additionalProperties: false
       required:
-        - idRole
-        - newName
+        - id
+        - name
       properties:
-        idRole:
+        id:
           type: number
           description: id role.
           example: 3
-        newName:
+        name:
           type: string
           description: Name role.
           example: Logist
@@ -368,9 +473,73 @@ components:
       type: object
       additionalProperties: false
       required:
-        - idRole
+        - id
       properties:
-        idRole:
+        id:
           type: number
           description: id role.
           example: 3
+
+    addRoleUser:
+      type: object
+      additionalProperties: false
+      required:
+        - userId
+        - roleId
+      properties:
+        userId:
+          type: number
+          description: id user.
+          example: 1
+        roleId:
+          type: number
+          description: id role.
+          example: 2
+
+    deleteRoleUser:
+      type: object
+      additionalProperties: false
+      required:
+        - userId
+        - roleId
+      properties:
+        userId:
+          type: number
+          description: id user.
+          example: 1
+        roleId:
+          type: number
+          description: id role.
+          example: 2
+
+    addPermission:
+      type: object
+      additionalProperties: false
+      required:
+        - permissionId
+        - roleId
+      properties:
+        permissionId:
+          type: number
+          description: id permission.
+          example: 1
+        roleId:
+          type: number
+          description: id role.
+          example: 2
+
+    dropPermission:
+      type: object
+      additionalProperties: false
+      required:
+        - permissionId
+        - roleId
+      properties:
+        permissionId:
+          type: number
+          description: id permission.
+          example: 1
+        roleId:
+          type: number
+          description: id role.
+          example: 2
