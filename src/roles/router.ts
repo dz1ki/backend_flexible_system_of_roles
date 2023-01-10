@@ -1,6 +1,13 @@
 import * as express from "express";
+import {
+  PERMISSION_ACTION_CREATE,
+  PERMISSION_ACTION_DELETE,
+  PERMISSION_ACTION_READ,
+  PERMISSION_ACTION_UPDATE,
+} from "../common/permission.action";
 import { authMiddleware } from "../middlewares/auth.middeleware";
 import { checkRoleMiddleware } from "../middlewares/role.middeleware";
+import { ENTITY_NAME_ROLE } from "./constants";
 import {
   createRole,
   deleteRole,
@@ -9,12 +16,7 @@ import {
   addPermission,
   dropPermission,
 } from "./controller";
-const PERMISSION_ACTION_CREATE = "Create";
-const PERMISSION_ACTION_UPDATE = "Update";
-const PERMISSION_ACTION_READ = "Read";
-const PERMISSION_ACTION_DELETE = "Delete";
 
-const ENTITY_NAME_ROLE = "roles";
 export const role: express.IRouter = express.Router();
 role.post(
   "/create",

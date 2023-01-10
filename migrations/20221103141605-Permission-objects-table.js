@@ -13,24 +13,29 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+
       slugname: {
         type: Sequelize.STRING,
         allowNull: false,
       },
+
       is_system: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
         allowNull: false,
       },
+
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },
+
       updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },
     });
+
     await queryInterface.addConstraint("permission_objects", {
       type: "UNIQUE",
       name: "slugname_unique",

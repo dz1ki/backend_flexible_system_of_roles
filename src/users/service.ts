@@ -1,4 +1,5 @@
 import { sendToEmailConfirmation } from "../mailer/mailer";
+import { Role } from "../models/role";
 import { User } from "../models/user";
 import { UserRole } from "../models/user.role";
 import {
@@ -112,6 +113,26 @@ export async function checkEmailUser(userId: number, codeConfirmation: string) {
     message: "Email not confirmed, you may be using an old email.",
     statusCode: 404,
   };
+}
+
+export async function listUsers(userPermission: string[]) {
+  const users = await User.findAll({
+    include: [
+      {
+        model: Role,
+        through: { attributes: [] },
+        as: "roles",
+      },
+    ],
+  });
+  const usersData = users.map((user) => {
+    let filtrDataUser = {};
+    userPermission.forEach(
+      (permission) => (filtrDataUser[permission] = user[permission])
+    );
+    return filtrDataUser;
+  });
+  return usersData;
 }
 
 export async function addRoleUser(roleId: number, userId: number) {

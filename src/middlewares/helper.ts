@@ -44,6 +44,34 @@ export function transformPermissionToArray(resultUserPermission) {
   return result;
 }
 
-export function checkFullPermissionEntity(arrayPermissions, entity) {
-  return arrayPermissions.includes(entity);
+export function filterReqUser(reqKeys, keysObjFilter) {
+  let result: string[] = [];
+  reqKeys.forEach((reqKey) =>
+    keysObjFilter.forEach((elemReq) => {
+      if (reqKey === elemReq) {
+        result.push(reqKey);
+      }
+    })
+  );
+  return result;
+}
+
+export function findPermissionObjUser(arrayPermissionsUser) {
+  let result: string[] = [];
+  arrayPermissionsUser.forEach((elem: any) => {
+    result.push(elem.split(".").pop());
+  });
+  return result;
+}
+
+export function filterPermissionUser(permissionsUser, keysObjFilter) {
+  let result: string[] = [];
+  permissionsUser.forEach((reqKey) =>
+    keysObjFilter.forEach((elemReq) => {
+      if (reqKey === elemReq) {
+        result.push(reqKey);
+      }
+    })
+  );
+  return result;
 }

@@ -484,33 +484,45 @@ components:
       type: object
       additionalProperties: false
       required:
-        - userId
-        - roleId
+        - role
       properties:
-        userId:
-          type: number
-          description: id user.
-          example: 1
-        roleId:
-          type: number
-          description: id role.
-          example: 2
+        role:
+          type: object
+          additionalProperties: false
+          required:
+            - userId
+            - roleId
+          properties:
+            userId:
+              type: number
+              description: id user.
+              example: 1
+            roleId:
+              type: number
+              description: id role.
+              example: 2
 
     deleteRoleUser:
       type: object
       additionalProperties: false
       required:
-        - userId
-        - roleId
+        - role
       properties:
-        userId:
-          type: number
-          description: id user.
-          example: 1
-        roleId:
-          type: number
-          description: id role.
-          example: 2
+        role:
+          type: object
+          additionalProperties: false
+          required:
+            - userId
+            - roleId
+          properties:
+            userId:
+              type: number
+              description: id user.
+              example: 1
+            roleId:
+              type: number
+              description: id role.
+              example: 2
 
     addPermission:
       type: object
@@ -532,14 +544,20 @@ components:
       type: object
       additionalProperties: false
       required:
-        - permissionId
-        - roleId
+        - role
       properties:
-        permissionId:
-          type: number
-          description: id permission.
-          example: 1
-        roleId:
-          type: number
-          description: id role.
-          example: 2
+        role:
+          type: object
+          additionalProperties: false
+          required:
+            - permissionId
+            - roleId
+          properties:
+            permissionId:
+              type: number
+              description: id permission.
+              example: 1
+            roleId:
+              type: number
+              description: id role.
+              example: 2

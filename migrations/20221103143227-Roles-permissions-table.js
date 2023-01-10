@@ -19,6 +19,7 @@ module.exports = {
           as: "role_id",
         },
       },
+
       permission_id: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
@@ -40,11 +41,13 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+
       updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },
     });
+
     await queryInterface.addConstraint("roles_permissions", {
       type: "UNIQUE",
       name: "role_id_permission_id_unique",

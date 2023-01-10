@@ -19,6 +19,7 @@ module.exports = {
           as: "role_id",
         },
       },
+
       user_id: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
@@ -29,20 +30,24 @@ module.exports = {
           as: "user_id",
         },
       },
+
       is_system: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
         allowNull: false,
       },
+
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },
+
       updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },
     });
+
     await queryInterface.addConstraint("users_roles", {
       type: "UNIQUE",
       name: "user_id_role_id_unique",

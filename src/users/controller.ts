@@ -1,3 +1,6 @@
+import { PermissionObject } from "../models/object.permission";
+import { Permission } from "../models/permission";
+import { Role } from "../models/role";
 import { User } from "../models/user";
 import {
   AuthorizationDTO,
@@ -14,6 +17,7 @@ import {
   authorizationUser,
   checkEmailUser,
   dropRoleUser,
+  listUsers,
   registrationUser,
   updatePasswordUser,
   updateUserData,
@@ -110,7 +114,8 @@ export async function checkEmail(req: checkEmailDTO, res) {
 
 export async function findAllUser(req, res) {
   try {
-    const result = await User.findAll();
+    const userPermission = req.userPermission;
+    const result = await listUsers(userPermission);
     res.status(200).json(result);
   } catch (error) {
     res.status(error.statusCode || 500).json(error.message || "Server error");
@@ -119,7 +124,7 @@ export async function findAllUser(req, res) {
 
 export async function roleAdd(req, res) {
   try {
-    const { roleId, userId } = req.body;
+    const { roleId, userId } = req.body.role;
     const result = await addRoleUser(roleId, userId);
     res.status(result.statusCode || 200).json(result.message);
   } catch (e) {
@@ -129,7 +134,7 @@ export async function roleAdd(req, res) {
 
 export async function roleDrop(req, res) {
   try {
-    const { roleId, userId } = req.body;
+    const { roleId, userId } = req.body.role;
     const result = await dropRoleUser(roleId, userId);
     res.status(result.statusCode || 200).json(result.message);
   } catch (e) {
