@@ -28,7 +28,6 @@ export class Permission extends Model<
   declare roles?: NonAttribute<Role[]>;
   declare permissionObject?: NonAttribute<PermissionObject[]>;
   declare action: PermissionAction;
-  declare isSystem: boolean;
   declare created_at: CreationOptional<Date>;
   declare updated_at: CreationOptional<Date>;
 }
@@ -53,10 +52,7 @@ Permission.init(
       values: ["Read", "Create", "Update", "Delete"],
       allowNull: false,
     },
-    isSystem: {
-      type: new DataTypes.BOOLEAN(),
-      field: "is_system",
-    },
+
     created_at: DataTypes.DATE,
     updated_at: DataTypes.DATE,
   },

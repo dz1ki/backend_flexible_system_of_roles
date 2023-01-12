@@ -15,7 +15,6 @@ export class Role extends Model<
 > {
   declare id: CreationOptional<number>;
   declare name: string;
-  declare slugname: string;
   declare isSystem: boolean;
   declare users?: NonAttribute<Role[]>;
   declare permissions?: NonAttribute<Permission[]>;
@@ -34,10 +33,7 @@ Role.init(
       type: new DataTypes.STRING(128),
       allowNull: false,
     },
-    slugname: {
-      type: new DataTypes.STRING(128),
-      allowNull: false,
-    },
+
     isSystem: {
       type: new DataTypes.BOOLEAN(),
       field: "is_system",

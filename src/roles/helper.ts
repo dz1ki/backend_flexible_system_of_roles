@@ -1,4 +1,3 @@
-import { resourceLimits } from "worker_threads";
 import { Role } from "../models/role";
 import { RolePermission } from "../models/role.permission";
 
@@ -7,12 +6,6 @@ export async function checkUniqueRole(newRole: string) {
   if (role) {
     throw { message: "This role already exists.", statusCode: 400 };
   }
-}
-
-export function convertToLowerCamelCase(name: string) {
-  return name
-    .toLowerCase()
-    .replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
 }
 
 export function checkSymbol(name: string) {

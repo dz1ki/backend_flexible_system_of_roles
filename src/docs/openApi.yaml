@@ -457,17 +457,23 @@ components:
       type: object
       additionalProperties: false
       required:
-        - id
         - name
       properties:
-        id:
-          type: number
-          description: id role.
-          example: 3
         name:
-          type: string
-          description: Name role.
-          example: Logist
+          type: object
+          additionalProperties: false
+          required:
+            - id
+            - name
+          properties:
+            id:
+              type: number
+              description: id role.
+              example: 3
+            name:
+              type: string
+              description: new name.
+              example: Logist
 
     deleteRole:
       type: object
@@ -528,25 +534,31 @@ components:
       type: object
       additionalProperties: false
       required:
-        - permissionId
-        - roleId
+        - permission
       properties:
-        permissionId:
-          type: number
-          description: id permission.
-          example: 1
-        roleId:
-          type: number
-          description: id role.
-          example: 2
+        permission:
+          type: object
+          additionalProperties: false
+          required:
+            - permissionId
+            - roleId
+          properties:
+            permissionId:
+              type: number
+              description: id permission.
+              example: 1
+            roleId:
+              type: number
+              description: id role.
+              example: 2
 
     dropPermission:
       type: object
       additionalProperties: false
       required:
-        - role
+        - permission
       properties:
-        role:
+        permission:
           type: object
           additionalProperties: false
           required:

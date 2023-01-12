@@ -7,17 +7,14 @@ import {
   checkSymbol,
   checkUniqueRole,
   checkUniquRolePermission,
-  convertToLowerCamelCase,
 } from "./helper";
 import { RolePermission } from "../models/role.permission";
 
 export async function addRole(newRole: string) {
   checkSymbol(newRole);
   await checkUniqueRole(newRole);
-  const resultConvert = convertToLowerCamelCase(newRole);
   await Role.create({
     name: newRole,
-    slugname: resultConvert,
   });
   return { message: "Role saved successfully.", statusCode: 201 };
 }
@@ -26,11 +23,7 @@ export async function updateOneRole(idRole: number, newName: string) {
   checkSymbol(newName);
   await checkUniqueRole(newName);
   await checkIsSustemRole(idRole);
-  const resultConvert = convertToLowerCamelCase(newName);
-  await Role.update(
-    { name: newName, slugname: resultConvert },
-    { where: { id: idRole } }
-  );
+  await Role.update({ name: newName }, { where: { id: idRole } });
   return { message: "Role successfully updated.", statusCode: 200 };
 }
 

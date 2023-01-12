@@ -30,7 +30,7 @@ user.post("/check-email", checkEmail);
 user.get(
   "/list",
   authMiddleware,
-  checkRoleMiddleware(PERMISSION_ACTION_UPDATE, ENTITY_NAME_USER),
+  checkRoleMiddleware(PERMISSION_ACTION_READ, ENTITY_NAME_USER),
   findAllUser
 );
 user.patch(

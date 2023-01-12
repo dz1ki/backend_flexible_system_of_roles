@@ -6,7 +6,7 @@ import {
   Model,
   NonAttribute,
 } from "sequelize";
-import { sequelize } from ".";
+import { sequelize } from "./index";
 import { Role } from "./role";
 
 export class User extends Model<
@@ -67,8 +67,8 @@ User.init(
     updated_at: DataTypes.DATE,
   },
   {
-    tableName: "users",
     sequelize,
+    tableName: "users",
     createdAt: "created_at",
     updatedAt: "updated_at",
   }

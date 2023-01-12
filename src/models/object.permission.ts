@@ -14,7 +14,6 @@ export class PermissionObject extends Model<
   declare id: CreationOptional<number>;
   declare name: string;
   declare slugname: string;
-  declare isSystem: boolean;
   declare created_at: CreationOptional<Date>;
   declare updated_at: CreationOptional<Date>;
 }
@@ -33,10 +32,7 @@ PermissionObject.init(
       type: new DataTypes.STRING(128),
       allowNull: false,
     },
-    isSystem: {
-      type: new DataTypes.BOOLEAN(),
-      field: "is_system",
-    },
+
     created_at: DataTypes.DATE,
     updated_at: DataTypes.DATE,
   },

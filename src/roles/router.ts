@@ -24,7 +24,7 @@ role.post(
   checkRoleMiddleware(PERMISSION_ACTION_CREATE, ENTITY_NAME_ROLE),
   createRole
 );
-role.put(
+role.patch(
   "/update",
   authMiddleware,
   checkRoleMiddleware(PERMISSION_ACTION_UPDATE, ENTITY_NAME_ROLE),

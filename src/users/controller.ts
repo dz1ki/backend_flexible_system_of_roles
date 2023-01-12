@@ -1,6 +1,3 @@
-import { PermissionObject } from "../models/object.permission";
-import { Permission } from "../models/permission";
-import { Role } from "../models/role";
 import { User } from "../models/user";
 import {
   AuthorizationDTO,

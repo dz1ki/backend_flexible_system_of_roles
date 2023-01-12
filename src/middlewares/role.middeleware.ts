@@ -23,16 +23,19 @@ export function checkRoleMiddleware(action: string, entity: string) {
         permissionsUser,
         valueObjFilter
       );
+
       if (!resultFilterPermissionUser[0]) {
         return res.status(401).json("Not enough rights.");
       }
       resultFilterReq.forEach((reqUserKey) => {
-        resultFilterPermissionUser.forEach((permision) => {
-          if (!(permision === TARGET_OBJECTS[entity][reqUserKey])) {
-            console.log("Not role 2");
-            return res.status(401).json("Not enough rights.");
-          }
-        });
+        const result = resultFilterPermissionUser.includes(
+          TARGET_OBJECTS[entity][reqUserKey]
+        );
+        if (!result) {
+          throw {
+            message: `Insufficient rights to access the field ${TARGET_OBJECTS[entity][reqUserKey]}`,
+          };
+        }
       });
       const permissionObjUser: string[] = findPermissionObjUser(
         resultFilterPermissionUser

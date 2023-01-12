@@ -1,5 +1,6 @@
+import { Permission } from "../models/permission";
 import { Role } from "../models/role";
-import { AddRoleDTO, UpdateRoleDTO } from "../types/role";
+import { AddRoleDTO } from "../types/role";
 import {
   addPermissionRole,
   addRole,
@@ -18,9 +19,9 @@ export async function createRole(req: AddRoleDTO, res) {
   }
 }
 
-export async function updateRole(req: UpdateRoleDTO, res) {
+export async function updateRole(req, res) {
   try {
-    const { id, name } = req.body;
+    const { id, name } = req.body.name;
     const result = await updateOneRole(id, name);
     res.status(result.statusCode || 200).json(result.message);
   } catch (error) {
@@ -30,7 +31,17 @@ export async function updateRole(req: UpdateRoleDTO, res) {
 
 export async function findRole(req, res) {
   try {
-    const result = await Role.findAll();
+    const result = await Role.findAll({
+      attributes: ["name"],
+      include: [
+        {
+          model: Permission,
+          through: { attributes: [] },
+          as: "permissions",
+          attributes: ["name"],
+        },
+      ],
+    });
     res.status(200).json(result);
   } catch (error) {
     res.status(error.statusCode || 500).json(error.message || "Server error");
@@ -49,7 +60,7 @@ export async function deleteRole(req, res) {
 
 export async function addPermission(req, res) {
   try {
-    const { permissionId, roleId } = req.body;
+    const { permissionId, roleId } = req.body.permission;
     const result = await addPermissionRole(permissionId, roleId);
     res.status(result.statusCode || 200).json(result.message);
   } catch (error) {
@@ -59,7 +70,7 @@ export async function addPermission(req, res) {
 
 export async function dropPermission(req, res) {
   try {
-    const { permissionId, roleId } = req.body;
+    const { permissionId, roleId } = req.body.permission;
     const result = await dropPermissionRole(permissionId, roleId);
     res.status(result.statusCode || 200).json(result.message);
   } catch (error) {

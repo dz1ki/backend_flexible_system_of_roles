@@ -6,7 +6,7 @@ import {
   InferCreationAttributes,
   Model,
 } from "sequelize";
-import { sequelize } from ".";
+import { sequelize } from "./index";
 import { Role } from "./role";
 import { User } from "./user";
 

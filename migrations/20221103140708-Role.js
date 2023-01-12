@@ -15,12 +15,6 @@ module.exports = {
         unique: true,
       },
 
-      slugname: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-      },
-
       is_system: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,

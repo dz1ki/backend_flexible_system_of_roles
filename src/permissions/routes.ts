@@ -1,13 +1,9 @@
 import * as express from "express";
+import { PERMISSION_ACTION_READ } from "../common/permission.action";
 import { authMiddleware } from "../middlewares/auth.middeleware";
 import { checkRoleMiddleware } from "../middlewares/role.middeleware";
 import { findPermissions } from "./controller";
-
-const PERMISSION_ACTION_CREATE = "Create";
-const PERMISSION_ACTION_UPDATE = "Update";
-const PERMISSION_ACTION_READ = "Read";
-const PERMISSION_ACTION_DELETE = "Delete";
-const ENTITY_NAME_PERMISSION = "permissions";
+import { ENTITY_NAME_PERMISSION } from "./constants";
 
 export const permission: express.IRouter = express.Router();
 permission.get(
