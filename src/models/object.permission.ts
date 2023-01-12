@@ -23,13 +23,14 @@ PermissionObject.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+      allowNull: false,
     },
     name: {
-      type: new DataTypes.STRING(128),
+      type: new DataTypes.STRING(),
       allowNull: false,
     },
     slugname: {
-      type: new DataTypes.STRING(128),
+      type: new DataTypes.STRING(),
       allowNull: false,
     },
 

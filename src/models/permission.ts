@@ -37,6 +37,7 @@ Permission.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+      allowNull: false,
     },
     objectId: {
       type: new DataTypes.INTEGER(),
@@ -44,7 +45,7 @@ Permission.init(
       field: "object_id",
     },
     name: {
-      type: new DataTypes.STRING(128),
+      type: new DataTypes.STRING(),
       allowNull: false,
     },
     action: {

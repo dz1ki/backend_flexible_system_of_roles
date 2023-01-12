@@ -23,24 +23,9 @@ export async function registrationUser(
   passwordUser: string
 ) {
   const findUser = await User.findOne({ where: { email: userEmail } });
-  console.log(1);
-
   checkUniqueEmail(findUser);
-  console.log(2);
-
   const resultHash = await hashPassword(passwordUser);
-  console.log(3);
-
   const confirmationCode = randomCharacterGenerator();
-  console.log(4);
-  console.log({
-    email: userEmail,
-    firstName,
-    lastName,
-    confirmationCode,
-    password: resultHash,
-  });
-
   const user = await User.create({
     email: userEmail,
     firstName,
@@ -48,12 +33,8 @@ export async function registrationUser(
     mailConfirmationCode: confirmationCode,
     password: resultHash,
   });
-
-  console.log(5);
   await UserRole.create({ userId: user.id, roleId: 2 });
-  console.log(6);
   await sendToEmailConfirmation(user.id, userEmail, confirmationCode);
-  console.log(7);
   return {
     message: `User registered. A confirmation email has been sent to ${userEmail}`,
     statusCode: 201,

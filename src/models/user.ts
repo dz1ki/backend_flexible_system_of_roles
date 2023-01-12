@@ -6,6 +6,7 @@ import {
   Model,
   NonAttribute,
 } from "sequelize";
+
 import { sequelize } from "./index";
 import { Role } from "./role";
 
@@ -32,21 +33,22 @@ User.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+      allowNull: false,
     },
     password: {
-      type: new DataTypes.STRING(128),
+      type: new DataTypes.STRING(),
       allowNull: true,
     },
     firstName: {
-      type: new DataTypes.STRING(128),
+      type: new DataTypes.STRING(),
       field: "first_name",
     },
     lastName: {
-      type: new DataTypes.STRING(128),
+      type: new DataTypes.STRING(),
       field: "last_name",
     },
     email: {
-      type: new DataTypes.STRING(128),
+      type: new DataTypes.STRING(),
       allowNull: true,
     },
     emailConfirmed: {
@@ -54,7 +56,7 @@ User.init(
       field: "email_confirmed",
     },
     mailConfirmationCode: {
-      type: new DataTypes.STRING(128),
+      type: new DataTypes.STRING(),
       allowNull: false,
       field: "mail_confirmation_code",
     },

@@ -27,6 +27,7 @@ UserRole.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+      allowNull: false,
     },
     roleId: {
       type: new DataTypes.INTEGER(),
