@@ -1,4 +1,27 @@
-# In developing
-Goal: Write a CRUD user with JWT authorization and a flexible role system.          
-Where the role has permission and the ability to flexibly customize solutions.     
-For example, the user can read some data, but there is no access to receive it.
+
+## Description
+
+## Running the app
+
+```bash
+# In the config folder, add local.json and config.json
+
+# In the console, run the database image with the command:
+$ docker-compose up
+
+# Create tables in the database using the "migrations" command:
+$ npm run migrate:start
+
+# To compile the project to JavaScript:
+$ npm run build
+
+# To start a project:
+$ npm run start
+
+```
+
+## Test
+
+Documentation (Swagger UI) is available at: [link] http://localhost:3000/api/
+
+node v16.14.2

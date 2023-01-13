@@ -1,0 +1,626 @@
+openapi: 3.0.0
+info:
+  title: Role system.
+  description: User CRUD and flexible role system.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Development server
+
+paths:
+  /user/registration:
+    post:
+      tags:
+        - User
+      summary: Registration user .
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/registrationUser"
+      responses:
+        200:
+          description: Succes.
+        201:
+          description: User registered.
+        401:
+          description: User with this email already exists.
+        500:
+          description: Server error.
+
+  /user/authorization:
+    post:
+      tags:
+        - User
+      summary: Authorization user .
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/authorizationUser"
+      responses:
+        200:
+          description: Succes.
+        201:
+          description: Token created.
+        404:
+          description: No such user exists.
+        400:
+          description: Wrong password.
+        500:
+          description: Server error.
+
+  /user/update:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: Update user data.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateUser"
+      responses:
+        200:
+          description: Succes.
+        201:
+          description: User update.
+        400:
+          description: User with this email already exists.
+        401:
+          description: Not authorized.
+        500:
+          description: Server error.
+
+  /user/add_role:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: Add role to user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/addRoleUser"
+      responses:
+        200:
+          description: Succes.
+        201:
+          description: Role saved.
+        400:
+          description: This user already has this role or role is system.
+        401:
+          description: Not authorized.
+        403:
+          description: Not enough rights.
+        500:
+          description: Server error.
+
+  /user/drop_role:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: Delete role to user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/deleteRoleUser"
+      responses:
+        200:
+          description: Succes.
+        400:
+          description: User does not have this role or role system.
+        401:
+          description: Not authorized.
+        403:
+          description: Not enough rights.
+        500:
+          description: Server error.
+
+  /user/find:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: Find user data.
+      responses:
+        200:
+          description: Succes.
+        401:
+          description: Not authorized.
+        500:
+          description: Server error.
+
+  /user/list:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: List all users.
+      responses:
+        200:
+          description: Succes.
+        401:
+          description: Not authorized.
+        403:
+          description: Not enough rights.
+        500:
+          description: Server error.
+
+  /user/drop:
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: Delete user.
+      responses:
+        200:
+          description: Succes.
+        401:
+          description: Not authorized.
+        500:
+          description: Server error.
+
+  /user/update-password:
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: Update password .
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updatePassword"
+      responses:
+        200:
+          description: Succes.
+        201:
+          description: Password changed in database.
+        400:
+          description: New passwords do not match or Wrong password.
+        401:
+          description: Not authorized.
+        500:
+          description: Server error.
+
+  /role/create:
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Role
+      summary: Create new role.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createRole"
+      responses:
+        200:
+          description: Succes.
+        201:
+          description: Role save
+        400:
+          description: This role already exists or name must not contain characters.
+        401:
+          description: Not authorized.
+        403:
+          description: Not enough rights.
+        500:
+          description: Server error.
+
+  /role/update:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - Role
+      summary: Update name role.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateRole"
+      responses:
+        200:
+          description: Succes.
+        400:
+          description: This Role already exists or the name is invalid or the role is system.
+        401:
+          description: Not authorized.
+        403:
+          description: Not enough rights.
+        500:
+          description: Server error.
+
+  /role/add_permission:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - Role
+      summary: Add role to permission.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/addPermission"
+      responses:
+        200:
+          description: Succes.
+        400:
+          description: The role already has this permission.
+        401:
+          description: Not authorized.
+        403:
+          description: Not enough rights.
+        500:
+          description: Server error.
+
+  /role/drop_permission:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - Role
+      summary: Delete role at permission.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/dropPermission"
+      responses:
+        200:
+          description: Succes.
+        400:
+          description: This is a system permission.
+        401:
+          description: Not authorized.
+        403:
+          description: Not enough rights.
+        404:
+          description: Role or permission not found.
+        500:
+          description: Server error.
+
+  /role/find:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Role
+      summary: Find all Role.
+      responses:
+        200:
+          description: Succes.
+        401:
+          description: Not authorized.
+        403:
+          description: Not enough rights.
+        500:
+          description: Server error.
+
+  /role/delete:
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Role
+      summary: Delete role.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/deleteRole"
+      responses:
+        200:
+          description: Succes.
+        400:
+          description: This is a system role.
+        401:
+          description: Not authorized.
+        403:
+          description: Not enough rights.
+        404:
+          description: No such role exists.
+        500:
+          description: Server error.
+
+  /permission/list:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Permission
+      summary: List all permissions.
+      responses:
+        200:
+          description: Succes.
+        401:
+          description: Not authorized.
+        403:
+          description: Lack of rights.
+        500:
+          description: Server error.
+
+  /user/check-email:
+    post:
+      tags:
+        - No implementation
+      summary: Check email user.
+      requestBody:
+        required: true
+        description: The user is sent an html form with a link and data to confirm the mail.
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/checkEmail"
+      responses:
+        200:
+          description: Succes.
+        404:
+          description: Email not confirmed, you may be using an old email.
+        500:
+          description: Server error.
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    registrationUser:
+      type: object
+      additionalProperties: false
+      required:
+        - password
+        - userEmail
+      properties:
+        firstName:
+          type: string
+          description: User first name
+          example: Yra
+        lastName:
+          type: string
+          description: User last name
+          example: Stell
+        userEmail:
+          type: string
+          description: User email
+          example: pete7833@examples.com
+        password:
+          type: string
+          description: User password
+          example: "21dsa"
+
+    authorizationUser:
+      type: object
+      additionalProperties: false
+      required:
+        - password
+        - email
+      properties:
+        email:
+          type: string
+          description: User email
+          example: admin@example.com
+        password:
+          type: string
+          description: Password user.
+          example: admin
+
+    updateUser:
+      type: object
+      additionalProperties: false
+      properties:
+        firstName:
+          type: string
+          description: User first name.
+          example: Yra
+        lastName:
+          type: string
+          description: User last name.
+          example: Stell
+        newEmail:
+          type: string
+          description: New user email.
+          example: pete7833@examples.com
+
+    updatePassword:
+      type: object
+      additionalProperties: false
+      required:
+        - oldPassword
+        - newPassword
+        - repeatNewPassword
+      properties:
+        oldPassword:
+          type: string
+          description: Old user password
+          example: "21dsa"
+        newPassword:
+          type: string
+          description: New user password
+          example: "3232d"
+        repeatNewPassword:
+          type: string
+          description: Repeat new user password
+          example: "3232d"
+
+    checkEmail:
+      type: object
+      additionalProperties: false
+      required:
+        - userId
+        - code
+      properties:
+        userId:
+          type: string
+          description: User id.
+          example: 1
+        code:
+          type: string
+          description: Email verification code.
+          example: YT45
+
+    createRole:
+      type: object
+      additionalProperties: false
+      required:
+        - role
+      properties:
+        role:
+          type: string
+          description: Name role.
+          example: Moderator
+
+    updateRole:
+      type: object
+      additionalProperties: false
+      required:
+        - role
+      properties:
+        role:
+          type: object
+          additionalProperties: false
+          required:
+            - id
+            - name
+          properties:
+            id:
+              type: number
+              description: Role id.
+              example: 3
+            name:
+              type: string
+              description: New name role.
+              example: Logist
+
+    deleteRole:
+      type: object
+      additionalProperties: false
+      required:
+        - role
+      properties:
+        role:
+          type: object
+          additionalProperties: false
+          required:
+            - id
+          properties:
+            id:
+              type: number
+              description: Role id.
+              example: 3
+
+    addRoleUser:
+      type: object
+      additionalProperties: false
+      required:
+        - role
+      properties:
+        role:
+          type: object
+          additionalProperties: false
+          required:
+            - userId
+            - roleId
+          properties:
+            userId:
+              type: number
+              description: User id.
+              example: 1
+            roleId:
+              type: number
+              description: Role id.
+              example: 2
+
+    deleteRoleUser:
+      type: object
+      additionalProperties: false
+      required:
+        - role
+      properties:
+        role:
+          type: object
+          additionalProperties: false
+          required:
+            - userId
+            - roleId
+          properties:
+            userId:
+              type: number
+              description: id user.
+              example: 1
+            roleId:
+              type: number
+              description: id role.
+              example: 2
+
+    addPermission:
+      type: object
+      additionalProperties: false
+      required:
+        - permission
+      properties:
+        permission:
+          type: object
+          additionalProperties: false
+          required:
+            - permissionId
+            - roleId
+          properties:
+            permissionId:
+              type: number
+              description: Permission id.
+              example: 1
+            roleId:
+              type: number
+              description: Role id.
+              example: 2
+
+    dropPermission:
+      type: object
+      additionalProperties: false
+      required:
+        - permission
+      properties:
+        permission:
+          type: object
+          additionalProperties: false
+          required:
+            - permissionId
+            - roleId
+          properties:
+            permissionId:
+              type: number
+              description: id permission.
+              example: 1
+            roleId:
+              type: number
+              description: id role.
+              example: 2
