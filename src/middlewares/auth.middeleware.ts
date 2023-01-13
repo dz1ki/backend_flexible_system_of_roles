@@ -1,5 +1,5 @@
+import * as config from "config";
 import * as jwt from "jsonwebtoken";
-import { SECRET_KEY } from "../data/constants";
 
 export function authMiddleware(req, res, next) {
   try {
@@ -7,7 +7,7 @@ export function authMiddleware(req, res, next) {
     if (!token) {
       return res.status(401).json({ message: "Not authorized" });
     }
-    const data = jwt.verify(token, SECRET_KEY);
+    const data = jwt.verify(token, config.get("JWT.key"));
     req.user = data;
     next();
   } catch (e) {

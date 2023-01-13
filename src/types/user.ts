@@ -44,3 +44,25 @@ export type UpdatePasswordDTO = {
     repeatNewPassword: string;
   };
 };
+
+export type FindAllUsersDTO = {
+  userPermission: string[];
+};
+
+export type AddUserRoleDTO = {
+  body: {
+    role: {
+      userId: number;
+      roleId: number;
+    };
+  };
+};
+
+export type DeleteUserRoleDTO = {
+  body: {
+    role: {
+      userId: number;
+      roleId: number;
+    };
+  };
+};

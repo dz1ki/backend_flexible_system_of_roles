@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon ./src/index.ts",
-    "start": "./dist/index.js"
+    "start": "tsc ./dist/index.js",
+    "migrate:start": "npx sequelize-cli db:migrate",
+    "migrate:undo": "npx sequelize-cli db:migrate:undo:all"
   },
   "author": "",
   "license": "ISC",

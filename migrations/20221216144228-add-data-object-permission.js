@@ -7,7 +7,7 @@ module.exports = {
       ( 'User First name', 'users.firstName',  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
       ( 'User Last name', 'users.lastName',  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
       ( 'User email', 'users.email',  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-      ( 'Role name', 'roles.name',  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+      ( 'Role name', 'roles.role',  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
       ( 'Role permissions', 'roles.permissions',  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
       ( 'Permissions', 'permissions.name',  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 

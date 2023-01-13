@@ -44,7 +44,7 @@ export function transformPermissionToArray(resultUserPermission) {
   return result;
 }
 
-export function filterReqUser(reqKeys, keysObjFilter) {
+export function filterReqUser(reqKeys: string[], keysObjFilter: string[]) {
   let result: string[] = [];
   reqKeys.forEach((reqKey) =>
     keysObjFilter.forEach((elemReq) => {
@@ -56,7 +56,7 @@ export function filterReqUser(reqKeys, keysObjFilter) {
   return result;
 }
 
-export function findPermissionObjUser(arrayPermissionsUser) {
+export function findPermissionObjUser(arrayPermissionsUser: string[]) {
   let result: string[] = [];
   arrayPermissionsUser.forEach((elem: any) => {
     result.push(elem.split(".").pop());
@@ -64,7 +64,10 @@ export function findPermissionObjUser(arrayPermissionsUser) {
   return result;
 }
 
-export function filterPermissionUser(permissionsUser, keysObjFilter) {
+export function filterPermissionUser(
+  permissionsUser: string[],
+  keysObjFilter: string[]
+) {
   let result: string[] = [];
   permissionsUser.forEach((reqKey) =>
     keysObjFilter.forEach((elemReq) => {

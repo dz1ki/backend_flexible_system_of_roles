@@ -24,13 +24,11 @@ module.exports = {
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,
-        timestamps: false,
       },
 
       updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
-        timestamps: false,
       },
     });
   },

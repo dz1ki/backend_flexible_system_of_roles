@@ -45,7 +45,7 @@ export async function checkUniqueRoleUser(roleId: number, userId: number) {
     where: { roleId, userId },
   });
   if (userRole) {
-    throw { message: "This user already has this role" };
+    throw { message: "This user already has this role", statusCode: 400 };
   }
 }
 
@@ -54,17 +54,17 @@ export async function checkRoleUser(roleId: number, userId: number) {
     where: { roleId, userId },
   });
   if (!userRole) {
-    throw { message: "User does not have this role" };
+    throw { message: "User does not have this role", statusCode: 400 };
   }
 }
 
-export async function checkIsSustemUserRole(roleId, userId) {
+export async function checkIsSustemUserRole(roleId: number, userId: number) {
   const userRole = await UserRole.findOne({
     where: { roleId, userId },
     attributes: ["isSystem"],
   });
   if (userRole.isSystem) {
-    throw { message: "Not possible to remove" };
+    throw { message: "Not possible to remove", statusCode: 400 };
   }
 }
 

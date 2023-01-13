@@ -1,7 +1,7 @@
 import { Role } from "../models/role";
 import {
   checkIsSustemPermissionRole,
-  checkIsSustemRole,
+  checkIsSystemRole,
   checkRole,
   checkRolePermission,
   checkSymbol,
@@ -22,14 +22,14 @@ export async function addRole(newRole: string) {
 export async function updateOneRole(idRole: number, newName: string) {
   checkSymbol(newName);
   await checkUniqueRole(newName);
-  await checkIsSustemRole(idRole);
+  await checkIsSystemRole(idRole);
   await Role.update({ name: newName }, { where: { id: idRole } });
   return { message: "Role successfully updated.", statusCode: 200 };
 }
 
 export async function dropRole(idRole: number) {
   await checkRole(idRole);
-  await checkIsSustemRole(idRole);
+  await checkIsSystemRole(idRole);
   await Role.destroy({ where: { id: idRole } });
   return { message: "Role deleted successfully", statusCode: 200 };
 }

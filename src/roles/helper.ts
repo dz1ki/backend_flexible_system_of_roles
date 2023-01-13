@@ -15,10 +15,10 @@ export function checkSymbol(name: string) {
   }
 }
 
-export async function checkIsSustemRole(idRole: number) {
+export async function checkIsSystemRole(idRole: number) {
   const role = await Role.findOne({ where: { id: idRole } });
   if (role.isSystem) {
-    throw { message: "This is a system role.", statusCode: 403 };
+    throw { message: "This is a system role.", statusCode: 400 };
   }
 }
 
@@ -29,28 +29,37 @@ export async function checkRole(idRole: number) {
   }
 }
 
-export async function checkUniquRolePermission(permissionId, roleId) {
+export async function checkUniquRolePermission(
+  permissionId: number,
+  roleId: number
+) {
   const result = await RolePermission.findOne({
     where: { permissionId, roleId },
   });
   if (result) {
-    throw { message: "The role already has this permission" };
+    throw { message: "The role already has this permission", statusCode: 400 };
   }
 }
 
-export async function checkIsSustemPermissionRole(permissionId, roleId) {
+export async function checkIsSustemPermissionRole(
+  permissionId: number,
+  roleId: number
+) {
   const result = await RolePermission.findOne({
     where: { permissionId, roleId },
   });
   if (result.isSystem) {
-    throw { message: "Not possible to remove" };
+    throw { message: "Not possible to remove", statusCode: 400 };
   }
 }
-export async function checkRolePermission(permissionId, roleId) {
+export async function checkRolePermission(
+  permissionId: number,
+  roleId: number
+) {
   const result = await RolePermission.findOne({
     where: { permissionId, roleId },
   });
   if (!result) {
-    throw { message: "Role or permission not found" };
+    throw { message: "Role or permission not found", statusCode: 404 };
   }
 }

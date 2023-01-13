@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: Authorization
-  description: Traninig-authorization .
+  title: Role system.
+  description: User CRUD and flexible role system.
   version: 1.0.0
 servers:
   - url: http://localhost:3000
@@ -93,6 +93,14 @@ paths:
       responses:
         200:
           description: Succes.
+        201:
+          description: Role saved.
+        400:
+          description: This user already has this role or role is system.
+        401:
+          description: Not authorized.
+        403:
+          description: Not enough rights.
         500:
           description: Server error.
 
@@ -112,6 +120,12 @@ paths:
       responses:
         200:
           description: Succes.
+        400:
+          description: User does not have this role or role system.
+        401:
+          description: Not authorized.
+        403:
+          description: Not enough rights.
         500:
           description: Server error.
 
@@ -142,6 +156,8 @@ paths:
           description: Succes.
         401:
           description: Not authorized.
+        403:
+          description: Not enough rights.
         500:
           description: Server error.
 
@@ -205,6 +221,10 @@ paths:
           description: Role save
         400:
           description: This role already exists or name must not contain characters.
+        401:
+          description: Not authorized.
+        403:
+          description: Not enough rights.
         500:
           description: Server error.
 
@@ -225,9 +245,11 @@ paths:
         200:
           description: Succes.
         400:
-          description: This Role already exists or the name is invalid.
+          description: This Role already exists or the name is invalid or the role is system.
+        401:
+          description: Not authorized.
         403:
-          description: The role is system.
+          description: Not enough rights.
         500:
           description: Server error.
 
@@ -247,6 +269,12 @@ paths:
       responses:
         200:
           description: Succes.
+        400:
+          description: The role already has this permission.
+        401:
+          description: Not authorized.
+        403:
+          description: Not enough rights.
         500:
           description: Server error.
 
@@ -266,6 +294,14 @@ paths:
       responses:
         200:
           description: Succes.
+        400:
+          description: This is a system permission.
+        401:
+          description: Not authorized.
+        403:
+          description: Not enough rights.
+        404:
+          description: Role or permission not found.
         500:
           description: Server error.
 
@@ -281,6 +317,8 @@ paths:
           description: Succes.
         401:
           description: Not authorized.
+        403:
+          description: Not enough rights.
         500:
           description: Server error.
 
@@ -300,8 +338,12 @@ paths:
       responses:
         200:
           description: Succes.
-        403:
+        400:
           description: This is a system role.
+        401:
+          description: Not authorized.
+        403:
+          description: Not enough rights.
         404:
           description: No such role exists.
         500:
@@ -319,8 +361,11 @@ paths:
           description: Succes.
         401:
           description: Not authorized.
+        403:
+          description: Lack of rights.
         500:
           description: Server error.
+
   /user/check-email:
     post:
       tags:
@@ -446,9 +491,9 @@ components:
       type: object
       additionalProperties: false
       required:
-        - name
+        - role
       properties:
-        name:
+        role:
           type: string
           description: Name role.
           example: Moderator
@@ -457,9 +502,9 @@ components:
       type: object
       additionalProperties: false
       required:
-        - name
+        - role
       properties:
-        name:
+        role:
           type: object
           additionalProperties: false
           required:
@@ -468,23 +513,29 @@ components:
           properties:
             id:
               type: number
-              description: id role.
+              description: Role id.
               example: 3
             name:
               type: string
-              description: new name.
+              description: New name role.
               example: Logist
 
     deleteRole:
       type: object
       additionalProperties: false
       required:
-        - id
+        - role
       properties:
-        id:
-          type: number
-          description: id role.
-          example: 3
+        role:
+          type: object
+          additionalProperties: false
+          required:
+            - id
+          properties:
+            id:
+              type: number
+              description: Role id.
+              example: 3
 
     addRoleUser:
       type: object
@@ -501,11 +552,11 @@ components:
           properties:
             userId:
               type: number
-              description: id user.
+              description: User id.
               example: 1
             roleId:
               type: number
-              description: id role.
+              description: Role id.
               example: 2
 
     deleteRoleUser:
@@ -545,11 +596,11 @@ components:
           properties:
             permissionId:
               type: number
-              description: id permission.
+              description: Permission id.
               example: 1
             roleId:
               type: number
-              description: id role.
+              description: Role id.
               example: 2
 
     dropPermission:

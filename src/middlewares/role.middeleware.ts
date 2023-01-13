@@ -13,7 +13,7 @@ export function checkRoleMiddleware(action: string, entity: string) {
       const { id } = req.user;
       const reqKeys = Object.keys(req.body);
       const keysObjFilter = Object.keys(TARGET_OBJECTS[entity]);
-      const valueObjFilter = Object.values(TARGET_OBJECTS[entity]);
+      const valueObjFilter: string[] = Object.values(TARGET_OBJECTS[entity]);
 
       const resultUserPermission = await findPirmission(id, action);
       const permissionsUser: string[] =
@@ -25,7 +25,7 @@ export function checkRoleMiddleware(action: string, entity: string) {
       );
 
       if (!resultFilterPermissionUser[0]) {
-        return res.status(401).json("Not enough rights.");
+        return res.status(403).json({ message: "Not enough rights." });
       }
       resultFilterReq.forEach((reqUserKey) => {
         const result = resultFilterPermissionUser.includes(
@@ -34,6 +34,7 @@ export function checkRoleMiddleware(action: string, entity: string) {
         if (!result) {
           throw {
             message: `Insufficient rights to access the field ${TARGET_OBJECTS[entity][reqUserKey]}`,
+            statusCode: 403,
           };
         }
       });

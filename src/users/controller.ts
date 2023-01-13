@@ -1,13 +1,17 @@
 import { User } from "../models/user";
 import {
+  AddUserRoleDTO,
   AuthorizationDTO,
   checkEmailDTO,
+  DeleteUserRoleDTO,
   DropUserDto,
+  FindAllUsersDTO,
   ListUserDTO,
   RegistrationDTO,
   UpdatePasswordDTO,
   UpdateUserDTO,
 } from "../types/user";
+import * as express from "express";
 import { checkIsSystem } from "./helper";
 import {
   addRoleUser,
@@ -20,7 +24,10 @@ import {
   updateUserData,
 } from "./service";
 
-export async function registration(req: RegistrationDTO, res) {
+export async function registration(
+  req: RegistrationDTO,
+  res: express.Response
+) {
   try {
     const { userEmail, firstName, lastName, password } = req.body;
     const result = await registrationUser(
@@ -35,7 +42,10 @@ export async function registration(req: RegistrationDTO, res) {
   }
 }
 
-export async function authorization(req: AuthorizationDTO, res) {
+export async function authorization(
+  req: AuthorizationDTO,
+  res: express.Response
+) {
   try {
     const { email, password } = req.body;
     const result = await authorizationUser(email, password);
@@ -99,7 +109,7 @@ export async function updatePassword(req: UpdatePasswordDTO, res) {
   }
 }
 
-export async function checkEmail(req: checkEmailDTO, res) {
+export async function checkEmail(req: checkEmailDTO, res: express.Response) {
   try {
     const { userId, code } = req.body;
     const result = await checkEmailUser(userId, code);
@@ -109,7 +119,7 @@ export async function checkEmail(req: checkEmailDTO, res) {
   }
 }
 
-export async function findAllUser(req, res) {
+export async function findAllUser(req: FindAllUsersDTO, res) {
   try {
     const userPermission = req.userPermission;
     const result = await listUsers(userPermission);
@@ -119,7 +129,7 @@ export async function findAllUser(req, res) {
   }
 }
 
-export async function roleAdd(req, res) {
+export async function roleAdd(req: AddUserRoleDTO, res: express.Response) {
   try {
     const { roleId, userId } = req.body.role;
     const result = await addRoleUser(roleId, userId);
@@ -129,7 +139,7 @@ export async function roleAdd(req, res) {
   }
 }
 
-export async function roleDrop(req, res) {
+export async function roleDrop(req: DeleteUserRoleDTO, res: express.Response) {
   try {
     const { roleId, userId } = req.body.role;
     const result = await dropRoleUser(roleId, userId);

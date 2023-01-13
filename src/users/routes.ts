@@ -2,7 +2,7 @@ import * as express from "express";
 import {
   PERMISSION_ACTION_READ,
   PERMISSION_ACTION_UPDATE,
-} from "../common/permission.action";
+} from "../data/constants";
 import { authMiddleware } from "../middlewares/auth.middeleware";
 import { checkRoleMiddleware } from "../middlewares/role.middeleware";
 import { ENTITY_NAME_USER } from "./constants";

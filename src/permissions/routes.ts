@@ -1,5 +1,5 @@
 import * as express from "express";
-import { PERMISSION_ACTION_READ } from "../common/permission.action";
+import { PERMISSION_ACTION_READ } from "../data/constants";
 import { authMiddleware } from "../middlewares/auth.middeleware";
 import { checkRoleMiddleware } from "../middlewares/role.middeleware";
 import { findPermissions } from "./controller";

@@ -7,7 +7,7 @@ export default {
   },
 
   roles: {
-    name: "roles.name",
+    role: "roles.role",
     permissions: "roles.permissions",
   },
 
