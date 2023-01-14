@@ -39,6 +39,7 @@ export async function listRole(permissionObjUser: string[]) {
       },
     ],
   });
+  permissionObjUser.push("id");
   const usersData = users.map((user) => {
     let filtrDataUser = {};
     permissionObjUser.forEach(

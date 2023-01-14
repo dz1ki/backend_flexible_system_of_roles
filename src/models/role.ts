@@ -18,8 +18,8 @@ export class Role extends Model<
   declare isSystem: boolean;
   declare users?: NonAttribute<Role[]>;
   declare permissions?: NonAttribute<Permission[]>;
-  declare created_at: CreationOptional<Date>;
-  declare updated_at: CreationOptional<Date>;
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
 }
 
 Role.init(
@@ -39,8 +39,14 @@ Role.init(
       type: new DataTypes.BOOLEAN(),
       field: "is_system",
     },
-    created_at: DataTypes.DATE,
-    updated_at: DataTypes.DATE,
+    createdAt: {
+      type: new DataTypes.DATE(),
+      field: "created_at",
+    },
+    updatedAt: {
+      type: new DataTypes.DATE(),
+      field: "created_at",
+    },
   },
   {
     tableName: "roles",

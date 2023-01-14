@@ -28,8 +28,8 @@ export class Permission extends Model<
   declare roles?: NonAttribute<Role[]>;
   declare permissionObject?: NonAttribute<PermissionObject[]>;
   declare action: PermissionAction;
-  declare created_at: CreationOptional<Date>;
-  declare updated_at: CreationOptional<Date>;
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
 }
 Permission.init(
   {
@@ -54,8 +54,14 @@ Permission.init(
       allowNull: false,
     },
 
-    created_at: DataTypes.DATE,
-    updated_at: DataTypes.DATE,
+    createdAt: {
+      type: new DataTypes.DATE(),
+      field: "created_at",
+    },
+    updatedAt: {
+      type: new DataTypes.DATE(),
+      field: "created_at",
+    },
   },
   {
     tableName: "permissions",

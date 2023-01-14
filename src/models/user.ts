@@ -23,8 +23,8 @@ export class User extends Model<
   declare isSystem: boolean;
   declare roles?: NonAttribute<Role[]>;
   declare mailConfirmationCode: string;
-  declare created_at: CreationOptional<Date>;
-  declare updated_at: CreationOptional<Date>;
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
 }
 
 User.init(
@@ -65,8 +65,14 @@ User.init(
       type: new DataTypes.BOOLEAN(),
       field: "is_system",
     },
-    created_at: DataTypes.DATE,
-    updated_at: DataTypes.DATE,
+    createdAt: {
+      type: new DataTypes.DATE(),
+      field: "created_at",
+    },
+    updatedAt: {
+      type: new DataTypes.DATE(),
+      field: "created_at",
+    },
   },
   {
     sequelize,
