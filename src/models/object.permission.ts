@@ -14,8 +14,8 @@ export class PermissionObject extends Model<
   declare id: CreationOptional<number>;
   declare name: string;
   declare slugname: string;
-  declare created_at: CreationOptional<Date>;
-  declare updated_at: CreationOptional<Date>;
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
 }
 PermissionObject.init(
   {
@@ -34,8 +34,14 @@ PermissionObject.init(
       allowNull: false,
     },
 
-    created_at: DataTypes.DATE,
-    updated_at: DataTypes.DATE,
+    createdAt: {
+      type: new DataTypes.DATE(),
+      field: "created_at",
+    },
+    updatedAt: {
+      type: new DataTypes.DATE(),
+      field: "created_at",
+    },
   },
   {
     tableName: "permission_objects",

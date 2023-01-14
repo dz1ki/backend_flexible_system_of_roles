@@ -18,8 +18,8 @@ export class UserRole extends Model<
   declare roleId: ForeignKey<Role["id"]>;
   declare userId: ForeignKey<User["id"]>;
   declare isSystem: boolean;
-  declare created_at: CreationOptional<Date>;
-  declare updated_at: CreationOptional<Date>;
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
 }
 UserRole.init(
   {
@@ -43,8 +43,14 @@ UserRole.init(
       type: new DataTypes.BOOLEAN(),
       field: "is_system",
     },
-    created_at: DataTypes.DATE,
-    updated_at: DataTypes.DATE,
+    createdAt: {
+      type: new DataTypes.DATE(),
+      field: "created_at",
+    },
+    updatedAt: {
+      type: new DataTypes.DATE(),
+      field: "created_at",
+    },
   },
   {
     tableName: "users_roles",

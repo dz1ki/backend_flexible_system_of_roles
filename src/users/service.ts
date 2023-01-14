@@ -122,10 +122,12 @@ export async function listUsers(permissionObjUser: string[]) {
       {
         model: Role,
         through: { attributes: [] },
+        attributes: ["name", "id"],
         as: "roles",
       },
     ],
   });
+  permissionObjUser.push("id");
   const usersData = users.map((user) => {
     let filtrDataUser = {};
     permissionObjUser.forEach(

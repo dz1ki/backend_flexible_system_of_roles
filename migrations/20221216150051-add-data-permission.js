@@ -14,9 +14,7 @@ module.exports = {
       ( 5, 'Delete role', 'Delete', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
       ( 6, 'Read Role permissions', 'Read', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
       ( 6, 'Update Role permissions', 'Update', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-      ( 7, 'Read role id', 'Read', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-      ( 8, 'Read permissions name', 'Read', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-      ( 9, 'Read permissions id', 'Read', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+      ( 7, 'Read permissions name', 'Read', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
      
 
   `);
