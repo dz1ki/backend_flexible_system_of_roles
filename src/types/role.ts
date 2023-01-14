@@ -1,22 +1,22 @@
 export type AddRoleDTO = {
-  body: { role: string };
+  body: { name: string };
 };
 
 export type UpdateRoleDTO = {
   body: {
-    role: { id: number; name: string };
+    name: { id: number; name: string };
   };
 };
 
 export type DeleteRoleDTO = {
   body: {
-    role: { id: number };
+    name: { id: number };
   };
 };
 
 export type AddPermissionRoleDTO = {
   body: {
-    permission: {
+    permissions: {
       permissionId: number;
       roleId: number;
     };
@@ -25,9 +25,13 @@ export type AddPermissionRoleDTO = {
 
 export type DropPermissionRoleDTO = {
   body: {
-    permission: {
+    permissions: {
       permissionId: number;
       roleId: number;
     };
   };
+};
+
+export type FindUserDTO = {
+  userPermission: string[];
 };

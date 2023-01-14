@@ -33,7 +33,7 @@ export async function registrationUser(
     mailConfirmationCode: confirmationCode,
     password: resultHash,
   });
-  await UserRole.create({ userId: user.id, roleId: 2 });
+  await UserRole.create({ userId: user.id, roleId: 2, isSystem: true });
   await sendToEmailConfirmation(user.id, userEmail, confirmationCode);
   return {
     message: `User registered. A confirmation email has been sent to ${userEmail}`,
@@ -116,7 +116,7 @@ export async function checkEmailUser(userId: number, codeConfirmation: string) {
   };
 }
 
-export async function listUsers(userPermission: string[]) {
+export async function listUsers(permissionObjUser: string[]) {
   const users = await User.findAll({
     include: [
       {
@@ -128,7 +128,7 @@ export async function listUsers(userPermission: string[]) {
   });
   const usersData = users.map((user) => {
     let filtrDataUser = {};
-    userPermission.forEach(
+    permissionObjUser.forEach(
       (permission) => (filtrDataUser[permission] = user[permission])
     );
     return filtrDataUser;

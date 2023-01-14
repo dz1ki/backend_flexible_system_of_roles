@@ -491,9 +491,9 @@ components:
       type: object
       additionalProperties: false
       required:
-        - role
+        - name
       properties:
-        role:
+        name:
           type: string
           description: Name role.
           example: Moderator
@@ -502,9 +502,9 @@ components:
       type: object
       additionalProperties: false
       required:
-        - role
+        - name
       properties:
-        role:
+        name:
           type: object
           additionalProperties: false
           required:
@@ -524,9 +524,9 @@ components:
       type: object
       additionalProperties: false
       required:
-        - role
+        - name
       properties:
-        role:
+        name:
           type: object
           additionalProperties: false
           required:
@@ -541,9 +541,9 @@ components:
       type: object
       additionalProperties: false
       required:
-        - role
+        - roles
       properties:
-        role:
+        roles:
           type: object
           additionalProperties: false
           required:
@@ -563,9 +563,9 @@ components:
       type: object
       additionalProperties: false
       required:
-        - role
+        - roles
       properties:
-        role:
+        roles:
           type: object
           additionalProperties: false
           required:
@@ -585,9 +585,9 @@ components:
       type: object
       additionalProperties: false
       required:
-        - permission
+        - permissions
       properties:
-        permission:
+        permissions:
           type: object
           additionalProperties: false
           required:
@@ -607,9 +607,9 @@ components:
       type: object
       additionalProperties: false
       required:
-        - permission
+        - permissions
       properties:
-        permission:
+        permissions:
           type: object
           additionalProperties: false
           required:

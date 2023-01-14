@@ -14,7 +14,6 @@ export function checkRoleMiddleware(action: string, entity: string) {
       const reqKeys = Object.keys(req.body);
       const keysObjFilter = Object.keys(TARGET_OBJECTS[entity]);
       const valueObjFilter: string[] = Object.values(TARGET_OBJECTS[entity]);
-
       const resultUserPermission = await findPirmission(id, action);
       const permissionsUser: string[] =
         transformPermissionToArray(resultUserPermission);
@@ -23,7 +22,6 @@ export function checkRoleMiddleware(action: string, entity: string) {
         permissionsUser,
         valueObjFilter
       );
-
       if (!resultFilterPermissionUser[0]) {
         return res.status(403).json({ message: "Not enough rights." });
       }
