@@ -51,7 +51,7 @@ export type FindAllUsersDTO = {
 
 export type AddUserRoleDTO = {
   body: {
-    role: {
+    roles: {
       userId: number;
       roleId: number;
     };
@@ -60,7 +60,7 @@ export type AddUserRoleDTO = {
 
 export type DeleteUserRoleDTO = {
   body: {
-    role: {
+    roles: {
       userId: number;
       roleId: number;
     };

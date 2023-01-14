@@ -1,10 +1,9 @@
-import { Permission } from "../models/permission";
-import { Role } from "../models/role";
 import {
   AddPermissionRoleDTO,
   AddRoleDTO,
   DeleteRoleDTO,
   DropPermissionRoleDTO,
+  FindUserDTO,
   UpdateRoleDTO,
 } from "../types/role";
 import * as express from "express";
@@ -13,13 +12,14 @@ import {
   addRole,
   dropPermissionRole,
   dropRole,
+  listRole,
   updateOneRole,
 } from "./service";
 
 export async function createRole(req: AddRoleDTO, res: express.Response) {
   try {
-    const { role } = req.body;
-    const result = await addRole(role);
+    const { name } = req.body;
+    const result = await addRole(name);
     res.status(result.statusCode || 200).json(result.message);
   } catch (error) {
     res.status(error.statusCode || 500).json(error.message || "Server error");
@@ -28,7 +28,7 @@ export async function createRole(req: AddRoleDTO, res: express.Response) {
 
 export async function updateRole(req: UpdateRoleDTO, res: express.Response) {
   try {
-    const { id, name } = req.body.role;
+    const { id, name } = req.body.name;
     const result = await updateOneRole(id, name);
     res.status(result.statusCode || 200).json(result.message);
   } catch (error) {
@@ -36,19 +36,10 @@ export async function updateRole(req: UpdateRoleDTO, res: express.Response) {
   }
 }
 
-export async function findRole(req: express.Request, res: express.Response) {
+export async function findRole(req: FindUserDTO, res) {
   try {
-    const result = await Role.findAll({
-      attributes: ["name"],
-      include: [
-        {
-          model: Permission,
-          through: { attributes: [] },
-          as: "permissions",
-          attributes: ["name"],
-        },
-      ],
-    });
+    const permissionObjUser = req.userPermission;
+    const result = await listRole(permissionObjUser);
     res.status(200).json(result);
   } catch (error) {
     res.status(error.statusCode || 500).json(error.message || "Server error");
@@ -57,7 +48,7 @@ export async function findRole(req: express.Request, res: express.Response) {
 
 export async function deleteRole(req: DeleteRoleDTO, res: express.Response) {
   try {
-    const { id } = req.body.role;
+    const { id } = req.body.name;
     const result = await dropRole(id);
     res.status(result.statusCode || 200).json(result.message);
   } catch (error) {
@@ -70,7 +61,7 @@ export async function addPermission(
   res: express.Response
 ) {
   try {
-    const { permissionId, roleId } = req.body.permission;
+    const { permissionId, roleId } = req.body.permissions;
     const result = await addPermissionRole(permissionId, roleId);
     res.status(result.statusCode || 200).json(result.message);
   } catch (error) {
@@ -83,7 +74,7 @@ export async function dropPermission(
   res: express.Response
 ) {
   try {
-    const { permissionId, roleId } = req.body.permission;
+    const { permissionId, roleId } = req.body.permissions;
     const result = await dropPermissionRole(permissionId, roleId);
     res.status(result.statusCode || 200).json(result.message);
   } catch (error) {

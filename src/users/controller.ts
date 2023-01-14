@@ -121,8 +121,8 @@ export async function checkEmail(req: checkEmailDTO, res: express.Response) {
 
 export async function findAllUser(req: FindAllUsersDTO, res) {
   try {
-    const userPermission = req.userPermission;
-    const result = await listUsers(userPermission);
+    const permissionObjUser = req.userPermission;
+    const result = await listUsers(permissionObjUser);
     res.status(200).json(result);
   } catch (error) {
     res.status(error.statusCode || 500).json(error.message || "Server error");
@@ -131,7 +131,7 @@ export async function findAllUser(req: FindAllUsersDTO, res) {
 
 export async function roleAdd(req: AddUserRoleDTO, res: express.Response) {
   try {
-    const { roleId, userId } = req.body.role;
+    const { roleId, userId } = req.body.roles;
     const result = await addRoleUser(roleId, userId);
     res.status(result.statusCode || 200).json(result.message);
   } catch (e) {
@@ -141,7 +141,7 @@ export async function roleAdd(req: AddUserRoleDTO, res: express.Response) {
 
 export async function roleDrop(req: DeleteUserRoleDTO, res: express.Response) {
   try {
-    const { roleId, userId } = req.body.role;
+    const { roleId, userId } = req.body.roles;
     const result = await dropRoleUser(roleId, userId);
     res.status(result.statusCode || 200).json(result.message);
   } catch (e) {

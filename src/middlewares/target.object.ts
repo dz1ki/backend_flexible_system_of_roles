@@ -7,11 +7,13 @@ export default {
   },
 
   roles: {
-    role: "roles.role",
+    id: "roles.id",
+    name: "roles.name",
     permissions: "roles.permissions",
   },
 
   permissions: {
+    id: "permissions.id",
     name: "permissions.name",
   },
 };

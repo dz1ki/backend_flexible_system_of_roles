@@ -9,6 +9,7 @@ import {
   checkUniquRolePermission,
 } from "./helper";
 import { RolePermission } from "../models/role.permission";
+import { Permission } from "../models/permission";
 
 export async function addRole(newRole: string) {
   checkSymbol(newRole);
@@ -25,6 +26,27 @@ export async function updateOneRole(idRole: number, newName: string) {
   await checkIsSystemRole(idRole);
   await Role.update({ name: newName }, { where: { id: idRole } });
   return { message: "Role successfully updated.", statusCode: 200 };
+}
+
+export async function listRole(permissionObjUser: string[]) {
+  const users = await Role.findAll({
+    include: [
+      {
+        model: Permission,
+        through: { attributes: [] },
+        attributes: ["id", "name"],
+        as: "permissions",
+      },
+    ],
+  });
+  const usersData = users.map((user) => {
+    let filtrDataUser = {};
+    permissionObjUser.forEach(
+      (permission) => (filtrDataUser[permission] = user[permission])
+    );
+    return filtrDataUser;
+  });
+  return usersData;
 }
 
 export async function dropRole(idRole: number) {
